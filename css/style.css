@@ -1,5 +1,5 @@
 /* ============================================================
-   Minimal dark theme – Lain / Massive Attack inspired
+   Minimal dark theme — refined
    ============================================================ */
 
 /* ---------- Reset & Base ---------- */
@@ -12,20 +12,20 @@
 }
 
 :root {
-  --color-bg: #0a0a0f;
-  --color-bg-alt: #111118;
-  --color-surface: #16161e;
-  --color-text: #c0c0cc;
-  --color-text-light: #787890;
-  --color-heading: #e0e0ea;
-  --color-accent: #5b8a72;
-  --color-accent-dim: #3d6650;
-  --color-border: #1e1e2a;
-  --font-heading: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-body: "Source Sans Pro", "Segoe UI", Roboto, sans-serif;
+  --color-bg: #0a0a0e;
+  --color-bg-alt: #0f0f14;
+  --color-surface: #141419;
+  --color-text: #a8a8b8;
+  --color-text-light: #606074;
+  --color-heading: #d4d4de;
+  --color-accent: #7a9bae;
+  --color-accent-dim: #4b6878;
+  --color-border: #1a1a24;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono: "SF Mono", "Fira Code", "Fira Mono", Menlo, monospace;
   --max-width: 720px;
-  --radius: 3px;
+  --radius: 5px;
+  --transition: 0.25s ease;
 }
 
 html {
@@ -33,21 +33,23 @@ html {
 }
 
 body {
-  font-family: var(--font-body);
-  font-size: 16px;
-  line-height: 1.7;
+  font-family: var(--font-sans);
+  font-size: 15.5px;
+  line-height: 1.75;
   color: var(--color-text);
   background: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a {
   color: var(--color-accent);
   text-decoration: none;
-  transition: color 0.2s;
+  transition: color var(--transition);
 }
 
 a:hover {
-  color: #7aac94;
+  color: #9bbccc;
 }
 
 img {
@@ -65,7 +67,9 @@ nav {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: var(--color-bg);
+  background: rgba(10, 10, 14, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--color-border);
 }
 
@@ -80,13 +84,13 @@ nav .nav-inner {
 
 nav .site-name {
   color: var(--color-heading);
-  font-family: var(--font-mono);
-  font-weight: 600;
+  font-family: var(--font-sans);
+  font-weight: 700;
   font-size: 0.95rem;
-  padding: 0.9rem 0;
+  padding: 0.95rem 0;
   white-space: nowrap;
   text-decoration: none;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
 }
 
 nav .site-name:hover {
@@ -103,10 +107,11 @@ nav ul {
 nav ul li a {
   display: block;
   color: var(--color-text-light);
-  padding: 0.9rem 0.7rem;
-  font-size: 0.85rem;
-  font-family: var(--font-mono);
-  transition: color 0.2s;
+  padding: 0.95rem 0.65rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  transition: color var(--transition);
   text-decoration: none;
 }
 
@@ -132,67 +137,75 @@ nav ul li a.active {
 .hero {
   background: var(--color-bg);
   color: var(--color-text);
-  padding: 5rem 1.5rem 3rem;
+  padding: 4.5rem 1.5rem 3rem;
   text-align: left;
   max-width: var(--max-width);
   margin: 0 auto;
 }
 
 .hero .profile-photo {
-  width: 100px;
-  height: 100px;
+  width: 88px;
+  height: 88px;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid var(--color-border);
-  margin-bottom: 1.5rem;
-  filter: grayscale(30%);
+  margin-bottom: 1.25rem;
+  filter: grayscale(20%);
+  transition: filter var(--transition);
+}
+
+.hero .profile-photo:hover {
+  filter: grayscale(0%);
 }
 
 .hero h1 {
-  font-family: var(--font-heading);
+  font-family: var(--font-sans);
   font-weight: 700;
-  font-size: 2rem;
+  font-size: 1.85rem;
   color: var(--color-heading);
   margin-bottom: 0.3rem;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.035em;
 }
 
 .hero .subtitle {
   font-size: 1rem;
+  font-weight: 500;
   color: var(--color-text-light);
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.15rem;
 }
 
 .hero .affiliation {
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   color: var(--color-text-light);
 }
 
 .hero .social-links {
-  margin-top: 1.5rem;
+  margin-top: 1.4rem;
   display: flex;
-  gap: 0.75rem;
+  gap: 0.6rem;
   flex-wrap: wrap;
 }
 
 .hero .social-links a {
   color: var(--color-text-light);
-  font-size: 0.82rem;
-  font-family: var(--font-mono);
-  padding: 0.35rem 0.7rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.3rem 0.65rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
-  transition: color 0.2s, border-color 0.2s;
+  transition: color var(--transition), border-color var(--transition), background var(--transition);
 }
 
 .hero .social-links a:hover {
-  color: var(--color-accent);
+  color: var(--color-heading);
   border-color: var(--color-accent-dim);
+  background: rgba(122, 155, 174, 0.06);
   text-decoration: none;
 }
 
 .hero .social-links a i {
-  margin-right: 0.3rem;
+  margin-right: 0.25rem;
+  font-size: 0.78rem;
 }
 
 /* ---------- Page Header (sub-pages) ---------- */
@@ -205,17 +218,17 @@ nav ul li a.active {
 }
 
 .page-header h1 {
-  font-family: var(--font-heading);
+  font-family: var(--font-sans);
   font-weight: 700;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   color: var(--color-heading);
-  margin-bottom: 0.3rem;
-  letter-spacing: -0.02em;
+  margin-bottom: 0.25rem;
+  letter-spacing: -0.025em;
 }
 
 .page-header p {
   color: var(--color-text-light);
-  font-size: 0.95rem;
+  font-size: 0.92rem;
 }
 
 /* ---------- Sections ---------- */
@@ -230,22 +243,22 @@ section {
 }
 
 section h2 {
-  font-family: var(--font-heading);
+  font-family: var(--font-sans);
   font-weight: 700;
-  font-size: 1.3rem;
+  font-size: 1.15rem;
   color: var(--color-heading);
   margin-bottom: 1.25rem;
-  padding-bottom: 0.4rem;
+  padding-bottom: 0.45rem;
   border-bottom: 1px solid var(--color-border);
   display: block;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
 
 /* ---------- Fade-in animation ---------- */
 .fade-in-section {
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  transform: translateY(16px);
+  transition: opacity 0.65s ease-out, transform 0.65s ease-out;
 }
 
 .fade-in-section.is-visible {
@@ -261,24 +274,30 @@ section h2 {
 .info-cards {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: 0.85rem;
   margin-top: 1.25rem;
 }
 
 .info-card {
   background: var(--color-surface);
   border-radius: var(--radius);
-  padding: 1rem 1.25rem;
+  padding: 1rem 1.15rem;
   border: 1px solid var(--color-border);
+  transition: border-color var(--transition);
+}
+
+.info-card:hover {
+  border-color: #252535;
 }
 
 .info-card h3 {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   color: var(--color-accent);
   margin-bottom: 0.5rem;
   text-transform: lowercase;
+  letter-spacing: 0.02em;
 }
 
 .info-card ul {
@@ -287,10 +306,10 @@ section h2 {
 }
 
 .info-card li {
-  margin-bottom: 0.25rem;
-  padding-left: 0.8rem;
+  margin-bottom: 0.2rem;
+  padding-left: 0.75rem;
   position: relative;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--color-text-light);
 }
 
@@ -305,68 +324,117 @@ section h2 {
 .research-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1rem;
+  gap: 0.85rem;
 }
 
 .research-card {
   background: var(--color-surface);
   border-radius: var(--radius);
-  padding: 1.25rem;
+  padding: 1.15rem 1.25rem;
   border: 1px solid var(--color-border);
+  transition: border-color var(--transition);
+}
+
+.research-card:hover {
+  border-color: #252535;
 }
 
 .research-card h3 {
-  font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: 1rem;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.95rem;
   color: var(--color-heading);
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.35rem;
 }
 
 .research-card p {
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   color: var(--color-text-light);
 }
 
 /* ---------- Publications (index teaser) ---------- */
 .publication {
-  margin-bottom: 1rem;
-  padding: 1rem 1.25rem;
+  margin-bottom: 0.85rem;
+  padding: 1rem 1.15rem;
   border-left: 2px solid var(--color-accent-dim);
   background: var(--color-surface);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  transition: border-color var(--transition);
+}
+
+.publication:hover {
+  border-left-color: var(--color-accent);
 }
 
 .publication .pub-title {
-  font-weight: 700;
-  font-size: 0.95rem;
+  font-weight: 600;
+  font-size: 0.92rem;
   color: var(--color-heading);
 }
 
 .publication .authors {
   color: var(--color-text-light);
-  font-size: 0.88rem;
+  font-size: 0.85rem;
 }
 
 .publication .venue {
   font-style: italic;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: var(--color-text-light);
 }
 
 .publication .pub-links {
-  margin-top: 0.4rem;
-  font-size: 0.82rem;
+  margin-top: 0.35rem;
+  font-size: 0.8rem;
 }
 
 .publication .pub-links a {
-  margin-right: 0.6rem;
+  margin-right: 0.5rem;
   font-weight: 600;
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: 0.76rem;
 }
 
 .publication .pub-links a i {
   margin-right: 0.15rem;
+}
+
+/* ---------- Gallery / Pictures ---------- */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+}
+
+.gallery-item {
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  transition: border-color var(--transition);
+}
+
+.gallery-item:hover {
+  border-color: #252535;
+}
+
+.gallery-item img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  transition: opacity var(--transition);
+}
+
+.gallery-item:hover img {
+  opacity: 0.85;
+}
+
+.gallery-item figcaption {
+  padding: 0.45rem 0.65rem;
+  font-size: 0.74rem;
+  color: var(--color-text-light);
+  letter-spacing: 0.01em;
 }
 
 /* ---------- Publications Page – Cards ---------- */
@@ -378,20 +446,21 @@ section h2 {
 
 .filter-bar {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.45rem;
   flex-wrap: wrap;
 }
 
 .filter-btn {
-  padding: 0.35rem 0.8rem;
+  padding: 0.3rem 0.75rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
   background: transparent;
   color: var(--color-text-light);
-  font-family: var(--font-mono);
-  font-size: 0.82rem;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all var(--transition);
 }
 
 .filter-btn:hover {
@@ -410,9 +479,9 @@ section h2 {
 }
 
 .pub-year-heading {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: var(--color-text-light);
   margin: 2rem 0 0.75rem;
   padding-bottom: 0.3rem;
@@ -427,71 +496,74 @@ section h2 {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
-  padding: 1rem 1.25rem;
-  margin-bottom: 0.75rem;
+  padding: 1rem 1.15rem;
+  margin-bottom: 0.65rem;
   position: relative;
+  transition: border-color var(--transition);
+}
+
+.publication-card:hover {
+  border-color: #252535;
 }
 
 .pub-type-badge {
   display: inline-block;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  padding: 0.15rem 0.5rem;
+  padding: 0.12rem 0.45rem;
   border-radius: var(--radius);
-  margin-bottom: 0.4rem;
-  font-family: var(--font-mono);
+  margin-bottom: 0.35rem;
 }
 
 .pub-type-badge.conference {
-  background: rgba(91, 138, 114, 0.15);
+  background: rgba(122, 155, 174, 0.12);
   color: var(--color-accent);
 }
 
 .pub-type-badge.journal {
-  background: rgba(90, 130, 180, 0.15);
+  background: rgba(100, 140, 180, 0.12);
   color: #6a9ec0;
 }
 
 .pub-type-badge.preprint {
-  background: rgba(180, 150, 90, 0.15);
-  color: #b09660;
+  background: rgba(170, 150, 100, 0.12);
+  color: #a89460;
 }
 
 .pub-title {
-  font-weight: 700;
-  font-size: 0.95rem;
+  font-weight: 600;
+  font-size: 0.92rem;
   color: var(--color-heading);
-  margin-bottom: 0.15rem;
+  margin-bottom: 0.12rem;
 }
 
 .pub-authors {
   color: var(--color-text-light);
-  font-size: 0.88rem;
+  font-size: 0.85rem;
 }
 
 .pub-venue {
   font-style: italic;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: var(--color-text-light);
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.35rem;
 }
 
 .pub-links {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
+  gap: 0.35rem;
 }
 
 .pub-links a {
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   font-weight: 600;
-  font-family: var(--font-mono);
-  padding: 0.2rem 0.5rem;
+  padding: 0.18rem 0.45rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
-  transition: all 0.2s;
+  transition: all var(--transition);
 }
 
 .pub-links a:hover {
@@ -513,42 +585,45 @@ section h2 {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
-  padding: 1.25rem;
-  margin-bottom: 0.75rem;
+  padding: 1.15rem 1.25rem;
+  margin-bottom: 0.65rem;
+  transition: border-color var(--transition);
+}
+
+.blog-card:hover {
+  border-color: #252535;
 }
 
 .blog-card-meta {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.4rem;
-  font-size: 0.8rem;
+  gap: 0.65rem;
+  margin-bottom: 0.35rem;
+  font-size: 0.78rem;
 }
 
 .blog-date {
   color: var(--color-text-light);
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: 0.76rem;
 }
 
 .blog-tag {
   background: var(--color-accent-dim);
   color: #c0c0cc;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  padding: 0.1rem 0.45rem;
+  padding: 0.08rem 0.4rem;
   border-radius: var(--radius);
-  font-family: var(--font-mono);
 }
 
 .blog-card h2 {
-  font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: 1.1rem;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 1.05rem;
   color: var(--color-heading);
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.25rem;
   border: none;
   padding-bottom: 0;
   display: block;
@@ -565,14 +640,13 @@ section h2 {
 
 .blog-card p {
   color: var(--color-text-light);
-  font-size: 0.9rem;
-  margin-bottom: 0.4rem;
+  font-size: 0.88rem;
+  margin-bottom: 0.35rem;
 }
 
 .read-more {
   font-weight: 600;
-  font-size: 0.82rem;
-  font-family: var(--font-mono);
+  font-size: 0.8rem;
 }
 
 /* ---------- Loading ---------- */
@@ -580,7 +654,7 @@ section h2 {
   text-align: center;
   padding: 2rem;
   color: var(--color-text-light);
-  font-size: 0.9rem;
+  font-size: 0.88rem;
 }
 
 /* ---------- Blog Post ---------- */
@@ -595,28 +669,27 @@ section h2 {
 .post-meta {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.6rem;
-  font-size: 0.82rem;
+  gap: 0.65rem;
+  margin-bottom: 0.55rem;
+  font-size: 0.8rem;
   color: var(--color-text-light);
-  font-family: var(--font-mono);
 }
 
 .post-header h1 {
-  font-family: var(--font-heading);
+  font-family: var(--font-sans);
   font-weight: 700;
-  font-size: 1.8rem;
+  font-size: 1.65rem;
   color: var(--color-heading);
   line-height: 1.3;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
 }
 
 .post-body h2 {
-  font-family: var(--font-heading);
+  font-family: var(--font-sans);
   font-weight: 700;
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   color: var(--color-heading);
-  margin: 2rem 0 0.6rem;
+  margin: 2rem 0 0.55rem;
   border: none;
   padding-bottom: 0;
   display: block;
@@ -629,9 +702,9 @@ section h2 {
 .post-body code {
   font-family: var(--font-mono);
   background: var(--color-surface);
-  padding: 0.15rem 0.35rem;
-  border-radius: 2px;
-  font-size: 0.88em;
+  padding: 0.12rem 0.3rem;
+  border-radius: 3px;
+  font-size: 0.86em;
   color: var(--color-accent);
 }
 
@@ -655,38 +728,38 @@ section h2 {
 }
 
 .post-body li {
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.25rem;
 }
 
 .post-nav {
   margin-top: 2.5rem;
-  padding-top: 1.25rem;
+  padding-top: 1.15rem;
   border-top: 1px solid var(--color-border);
 }
 
 .post-nav a {
   font-weight: 600;
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
 }
 
 /* ---------- Section CTA ---------- */
 .section-cta {
-  margin-top: 1.25rem;
+  margin-top: 1.15rem;
 }
 
 /* ---------- Teaching ---------- */
 .teaching-item {
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.65rem;
   padding: 0.75rem 1rem;
   border-left: 2px solid var(--color-accent-dim);
   background: var(--color-surface);
+  border-radius: 0 var(--radius) var(--radius) 0;
 }
 
 .teaching-item h3 {
-  font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: 0.95rem;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.92rem;
   color: var(--color-heading);
   margin-bottom: 0.1rem;
 }
@@ -694,26 +767,25 @@ section h2 {
 .teaching-item .role {
   font-style: italic;
   color: var(--color-text-light);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
 }
 
 .teaching-item p {
-  font-size: 0.88rem;
+  font-size: 0.85rem;
   color: var(--color-text-light);
 }
 
 /* ---------- Button ---------- */
 .btn {
   display: inline-block;
-  padding: 0.45rem 1rem;
+  padding: 0.4rem 0.95rem;
   background: transparent;
   color: var(--color-accent);
   border: 1px solid var(--color-accent-dim);
   border-radius: var(--radius);
   font-weight: 600;
-  font-size: 0.85rem;
-  font-family: var(--font-mono);
-  transition: all 0.2s;
+  font-size: 0.82rem;
+  transition: all var(--transition);
 }
 
 .btn:hover {
@@ -724,12 +796,11 @@ section h2 {
 
 /* ---------- Contact ---------- */
 .contact-info {
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   color: var(--color-text-light);
 }
 
 .contact-info a {
-  font-family: var(--font-mono);
   font-size: 0.85rem;
 }
 
@@ -740,7 +811,7 @@ footer {
   color: var(--color-text-light);
   text-align: center;
   padding: 1.5rem 1rem;
-  font-size: 0.82rem;
+  font-size: 0.78rem;
 }
 
 .footer-inner {
@@ -752,13 +823,13 @@ footer {
   margin-bottom: 0.5rem;
   display: flex;
   justify-content: center;
-  gap: 0.75rem;
+  gap: 0.7rem;
 }
 
 .footer-social a {
   color: var(--color-text-light);
-  font-size: 1rem;
-  transition: color 0.2s;
+  font-size: 0.95rem;
+  transition: color var(--transition);
 }
 
 .footer-social a:hover {
@@ -800,7 +871,7 @@ footer a:hover {
   }
 
   .hero h1 {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
   }
 
   .info-cards {
@@ -811,7 +882,11 @@ footer a:hover {
     grid-template-columns: 1fr;
   }
 
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .page-header h1 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
   }
 }
