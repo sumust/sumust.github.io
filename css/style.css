@@ -49,7 +49,7 @@ a {
 }
 
 a:hover {
-  color: #d4a87e;
+  color: #7ef28b;
 }
 
 img {
@@ -67,7 +67,7 @@ nav {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(12, 12, 12, 0.85);
+  background: rgba(10, 10, 10, 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--color-border);
@@ -137,25 +137,35 @@ nav ul li a.active {
 .hero {
   background: var(--color-bg);
   color: var(--color-text);
-  padding: 4.5rem 1.5rem 3rem;
-  text-align: left;
+  padding: 4rem 1.5rem 2.5rem;
   max-width: var(--max-width);
   margin: 0 auto;
 }
 
+.hero-inner {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
 .hero .profile-photo {
-  width: 88px;
-  height: 88px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid var(--color-border);
-  margin-bottom: 1.25rem;
+  flex-shrink: 0;
   filter: grayscale(20%);
   transition: filter var(--transition);
 }
 
 .hero .profile-photo:hover {
   filter: grayscale(0%);
+}
+
+.hero-text {
+  flex: 1;
+  min-width: 0;
 }
 
 .hero h1 {
@@ -199,7 +209,7 @@ nav ul li a.active {
 .hero .social-links a:hover {
   color: var(--color-heading);
   border-color: var(--color-accent-dim);
-  background: rgba(196, 149, 106, 0.06);
+  background: rgba(92, 219, 111, 0.06);
   text-decoration: none;
 }
 
@@ -348,7 +358,7 @@ section h2 {
 }
 
 .publication-card:hover {
-  border-color: #252420;
+  border-color: #252a25;
 }
 
 .pub-type-badge {
@@ -363,18 +373,18 @@ section h2 {
 }
 
 .pub-type-badge.conference {
-  background: rgba(196, 149, 106, 0.12);
+  background: rgba(92, 219, 111, 0.12);
   color: var(--color-accent);
 }
 
 .pub-type-badge.journal {
-  background: rgba(122, 154, 172, 0.12);
-  color: #7a9aac;
+  background: rgba(100, 160, 210, 0.12);
+  color: #6aa0d2;
 }
 
 .pub-type-badge.preprint {
-  background: rgba(170, 150, 100, 0.12);
-  color: #a89460;
+  background: rgba(200, 180, 100, 0.12);
+  color: #c0a850;
 }
 
 .pub-title {
@@ -436,7 +446,7 @@ section h2 {
 }
 
 .blog-card:hover {
-  border-color: #252420;
+  border-color: #252a25;
 }
 
 .blog-card-meta {
@@ -454,7 +464,7 @@ section h2 {
 
 .blog-tag {
   background: var(--color-accent-dim);
-  color: #c0bcb8;
+  color: #c0d4c4;
   font-size: 0.68rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -713,6 +723,21 @@ footer a:hover {
 
   .hero {
     padding: 3rem 1.5rem 2rem;
+  }
+
+  .hero-inner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .hero .profile-photo {
+    width: 110px;
+    height: 110px;
+  }
+
+  .hero .social-links {
+    justify-content: center;
   }
 
   .hero h1 {
