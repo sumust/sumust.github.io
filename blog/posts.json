@@ -1,0 +1,34 @@
+[
+  {
+    "slug": "getting-started-with-research",
+    "title": "Getting Started with Research as a PhD Student",
+    "date": "2025-03-15",
+    "tag": "Research",
+    "readTime": "6 min read",
+    "summary": "Reflections on my first year in the PhD program — what worked, what didn't, and the lessons I wish someone had told me earlier."
+  },
+  {
+    "slug": "gentle-intro-to-transformers",
+    "title": "A Gentle Introduction to Transformers",
+    "date": "2025-02-02",
+    "tag": "Tutorial",
+    "readTime": "8 min read",
+    "summary": "Breaking down the transformer architecture from scratch, with intuitive explanations and minimal math. Aimed at newcomers to NLP."
+  },
+  {
+    "slug": "research-workflow",
+    "title": "How I Organize My Research Workflow",
+    "date": "2024-12-10",
+    "tag": "Academic Life",
+    "readTime": "5 min read",
+    "summary": "A walkthrough of the tools and systems I use to manage papers, experiments, writing, and collaboration."
+  },
+  {
+    "slug": "neurips-2024",
+    "title": "My Experience Presenting at NeurIPS 2024",
+    "date": "2024-10-22",
+    "tag": "Conference",
+    "readTime": "4 min read",
+    "summary": "What it was like to present a poster at a top venue for the first time, and tips for making the most of conferences."
+  }
+]
