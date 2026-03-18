@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CV — Alex Chen</title>
+  <meta name="description" content="Alex Chen's academic curriculum vitae." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lora:wght@700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="site-logo" href="index.html">Alex<span>.</span>Chen</a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="6"  x2="19" y2="6"  />
+          <line x1="3" y1="11" x2="19" y2="11" />
+          <line x1="3" y1="16" x2="19" y2="16" />
+        </svg>
+      </button>
+      <nav class="site-nav" id="site-nav">
+        <a class="nav-link" href="index.html">About</a>
+        <a class="nav-link" href="research.html">Research</a>
+        <a class="nav-link" href="publications.html">Publications</a>
+        <a class="nav-link" href="blog/index.html">Blog</a>
+        <a class="nav-link" href="cv.html">CV</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-wrapper">
+    <h1 class="profile-name" style="margin-bottom:0.4rem;">Curriculum Vitae</h1>
+    <p class="text-muted text-sm" style="margin-bottom:1.5rem;">Last updated March 2026</p>
+    <a class="cv-download-btn" href="#" download>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Download PDF
+    </a>
+
+    <!-- Education -->
+    <div class="cv-section">
+      <h2 class="section-heading">Education</h2>
+      <div class="cv-entry">
+        <span class="cv-entry-date">2023 – present</span>
+        <div class="cv-entry-body">
+          <div class="cv-entry-title">PhD, Computer Science — Carnegie Mellon University</div>
+          <div class="cv-entry-sub">Advisor: Prof. Jordan Lee · GPA: 4.0/4.0</div>
+          <div class="cv-entry-sub">Focus: Program Synthesis, Neurosymbolic AI, Human-AI Interaction</div>
+        </div>
+      </div>
+      <div class="cv-entry">
+        <span class="cv-entry-date">2019 – 2023</span>
+        <div class="cv-entry-body">
+          <div class="cv-entry-title">BS, Computer Science &amp; Mathematics (Double Major) — MIT</div>
+          <div class="cv-entry-sub">GPA: 4.8/5.0 · Thesis: "Verified Compilation of Higher-Order Functional Programs"</div>
+          <div class="cv-entry-sub">Advisor: Prof. Angela Park</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Experience -->
+    <div class="cv-section">
+      <h2 class="section-heading">Industry Experience</h2>
+      <div class="cv-entry">
+        <span class="cv-entry-date">Summer 2025</span>
+        <div class="cv-entry-body">
+          <div class="cv-entry-title">Research Intern — Google DeepMind, London</div>
+          <div class="cv-entry-sub">Gemini safety team · LLM robustness and compositional reasoning evaluation</div>
+        </div>
+      </div>
+      <div class="cv-entry">
+        <span class="cv-entry-date">2023 – 2023</span>
+        <div class="cv-entry-body">
+          <div class="cv-entry-title">Software Engineer — Synapse Dev Tools (YC W23)</div>
+          <div class="cv-entry-sub">Built core runtime for an AI-powered code review product</div>
+        </div>
+      </div>
+      <div class="cv-entry">
+        <span class="cv-entry-date">Summer 2022</span>
+        <div class="cv-entry-body">
+          <div class="cv-entry-title">Research Intern — Jane Street Capital</div>
+          <div class="cv-entry-sub">OCaml infrastructure team · Worked on incremental build systems</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Honors -->
+    <div class="cv-section">
+      <h2 class="section-heading">Honors &amp; Awards</h2>
+      <div class="cv-entry">
+        <span class="cv-entry-date">2025</span>
+        <div class="cv-entry-body">
+          <div class="cv-entry-title">NSF Graduate Research Fellowship</div>
+        </div>
+      </div>
+      <div class="cv-entry">
+        <span class="cv-entry-date">2024</span>
+        <div class="cv-entry-body">
+          <div class="cv-entry-title">POPL Student Research Competition — 1st Place</div>
+        </div>
+      </div>
+      <div class="cv-entry">
+        <span class="cv-entry-date">2024</span>
+        <div class="cv-entry-body">
+          <div class="cv-entry-title">CMU SCS Teaching Award — Exceptional TA</div>
+          <div class="cv-entry-sub">15-312 Principles of Programming Languages</div>
+        </div>
+      </div>
+      <div class="cv-entry">
+        <span class="cv-entry-date">2023</span>
+        <div class="cv-entry-body">
+          <div class="cv-entry-title">MIT CJ Thompson Fellowship</div>
+          <div class="cv-entry-sub">Awarded to top graduating CS seniors</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Service -->
+    <div class="cv-section">
+      <h2 class="section-heading">Service &amp; Teaching</h2>
+      <div class="cv-entry">
+        <span class="cv-entry-date">2024 – 2025</span>
+        <div class="cv-entry-body">
+          <div class="cv-entry-title">Teaching Assistant — 15-312 Principles of Programming Languages, CMU</div>
+        </div>
+      </div>
+      <div class="cv-entry">
+        <span class="cv-entry-date">2025 – 2026</span>
+        <div class="cv-entry-body">
+          <div class="cv-entry-title">Reviewer — ICML 2026, NeurIPS 2025, ICLR 2025, CHI 2025</div>
+        </div>
+      </div>
+      <div class="cv-entry">
+        <span class="cv-entry-date">2024 – 2026</span>
+        <div class="cv-entry-body">
+          <div class="cv-entry-title">Organizer — CMU PL &amp; AI Reading Group</div>
+          <div class="cv-entry-sub">Weekly cross-disciplinary seminar, 30+ regular attendees</div>
+        </div>
+      </div>
+      <div class="cv-entry">
+        <span class="cv-entry-date">2024</span>
+        <div class="cv-entry-body">
+          <div class="cv-entry-title">Mentor — CMU Women in CS Summer Research Program</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Skills -->
+    <div class="cv-section">
+      <h2 class="section-heading">Technical Skills</h2>
+      <div class="cv-entry">
+        <span class="cv-entry-date">Languages</span>
+        <div class="cv-entry-body">
+          <div class="cv-entry-sub">Python, OCaml, Haskell, TypeScript, Rust, Coq, Lean</div>
+        </div>
+      </div>
+      <div class="cv-entry">
+        <span class="cv-entry-date">ML / AI</span>
+        <div class="cv-entry-body">
+          <div class="cv-entry-sub">PyTorch, JAX, Hugging Face, LangChain, LlamaIndex</div>
+        </div>
+      </div>
+      <div class="cv-entry">
+        <span class="cv-entry-date">Tools</span>
+        <div class="cv-entry-body">
+          <div class="cv-entry-sub">Git, Docker, SLURM, LaTeX</div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>Built with ♥ and too much espresso · © 2026 Alex Chen</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
