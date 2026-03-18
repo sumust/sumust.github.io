@@ -6,11 +6,15 @@ it works out-of-the-box with **GitHub Pages**.
 
 ## Live Demo
 
-After enabling GitHub Pages (see below), your site will be available at:
+Once deployed, the site will be available at:
 
 ```
-https://<your-username>.github.io/<repo-name>/
+https://sumust.github.io/
 ```
+
+> **Note:** For the site to be served at the root URL above, the repository
+> must be named `sumust.github.io`. If it has a different name, rename it
+> under **Settings → General → Repository name**.
 
 ## Quick Start
 
@@ -29,7 +33,7 @@ https://<your-username>.github.io/<repo-name>/
 3. The included workflow (`.github/workflows/deploy.yml`) will automatically
    build and deploy the site on every push to `main`.
 
-## Customisation Checklist
+## Customization Checklist
 
 | What to change | Where |
 |---|---|
