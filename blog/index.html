@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog — Alex Chen</title>
+  <meta name="description" content="Alex Chen's blog on AI, programming languages, PhD life, and more." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lora:wght@700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="site-logo" href="../index.html">Alex<span>.</span>Chen</a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="6"  x2="19" y2="6"  />
+          <line x1="3" y1="11" x2="19" y2="11" />
+          <line x1="3" y1="16" x2="19" y2="16" />
+        </svg>
+      </button>
+      <nav class="site-nav" id="site-nav">
+        <a class="nav-link" href="../index.html">About</a>
+        <a class="nav-link" href="../research.html">Research</a>
+        <a class="nav-link" href="../publications.html">Publications</a>
+        <a class="nav-link active" href="index.html">Blog</a>
+        <a class="nav-link" href="../cv.html">CV</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-wrapper">
+    <h1 class="profile-name" style="margin-bottom:0.25rem;">Blog</h1>
+    <p class="text-muted text-sm" style="margin-bottom:2rem;">
+      Thoughts on AI, programming languages, PhD life, and occasionally espresso.
+      No promises on update frequency.
+    </p>
+
+    <div class="blog-grid">
+
+      <a class="blog-card" href="why-program-synthesis-matters.html">
+        <div class="blog-meta">
+          <span class="blog-category">Research</span>
+          <span class="blog-meta-sep">·</span>
+          <span>March 12, 2026</span>
+          <span class="blog-meta-sep">·</span>
+          <span>8 min read</span>
+        </div>
+        <h2 class="blog-card-title">Why Program Synthesis Still Matters (And Is Finally Taking Off)</h2>
+        <p class="blog-card-excerpt">
+          For decades, the dream of telling a computer <em>what</em> you want and
+          having it figure out <em>how</em> to do it has lived mostly in academic
+          papers. Something has shifted in the last two years.
+          Here's my take on why the moment is now.
+        </p>
+      </a>
+
+      <a class="blog-card" href="llms-cant-reason.html">
+        <div class="blog-meta">
+          <span class="blog-category">AI</span>
+          <span class="blog-meta-sep">·</span>
+          <span>February 3, 2026</span>
+          <span class="blog-meta-sep">·</span>
+          <span>12 min read</span>
+        </div>
+        <h2 class="blog-card-title">LLMs Can't Reason (And That's Okay)</h2>
+        <p class="blog-card-excerpt">
+          Every few months someone posts a new benchmark showing GPT-whatever
+          fails at basic logical reasoning, and a hot take war breaks out.
+          I want to steelman both sides and offer a research agenda that
+          doesn't require us to pick one.
+        </p>
+      </a>
+
+      <a class="blog-card" href="first-year-phd.html">
+        <div class="blog-meta">
+          <span class="blog-category">PhD Life</span>
+          <span class="blog-meta-sep">·</span>
+          <span>September 15, 2024</span>
+          <span class="blog-meta-sep">·</span>
+          <span>6 min read</span>
+        </div>
+        <h2 class="blog-card-title">One Year In: Honest Reflections on a CS PhD</h2>
+        <p class="blog-card-excerpt">
+          A year ago I started my PhD with a head full of grand research visions.
+          Here's what actually happened — what surprised me, what I got wrong,
+          and what I'd tell my past self.
+        </p>
+      </a>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>Built with ♥ and too much espresso · © 2026 Alex Chen</p>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

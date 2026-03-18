@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Research — Alex Chen</title>
+  <meta name="description" content="Alex Chen's research on program synthesis, neurosymbolic AI, and human-AI interaction." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lora:wght@700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="site-logo" href="index.html">Alex<span>.</span>Chen</a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="6"  x2="19" y2="6"  />
+          <line x1="3" y1="11" x2="19" y2="11" />
+          <line x1="3" y1="16" x2="19" y2="16" />
+        </svg>
+      </button>
+      <nav class="site-nav" id="site-nav">
+        <a class="nav-link" href="index.html">About</a>
+        <a class="nav-link" href="research.html">Research</a>
+        <a class="nav-link" href="publications.html">Publications</a>
+        <a class="nav-link" href="blog/index.html">Blog</a>
+        <a class="nav-link" href="cv.html">CV</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-wrapper">
+    <h1 class="profile-name" style="margin-bottom:0.4rem;">Research</h1>
+    <p class="text-muted text-sm" style="margin-bottom:2rem; max-width:600px;">
+      I'm broadly interested in how we can make computers better thinking partners.
+      My work spans three interconnected themes:
+    </p>
+
+    <!-- Three themes -->
+    <div class="section-block">
+      <h2 class="section-heading">Research Themes</h2>
+      <div class="research-grid">
+
+        <div class="research-card">
+          <div class="research-icon">🔬</div>
+          <h3>Human-in-the-Loop Program Synthesis</h3>
+          <p>
+            Building synthesis tools that treat the programmer as a collaborator,
+            not an oracle. I study how partial sketches, interactive feedback, and
+            natural language can guide search in large program spaces.
+          </p>
+          <div class="tag-list">
+            <span class="tag">Program Synthesis</span>
+            <span class="tag">PL Theory</span>
+            <span class="tag">HCI</span>
+          </div>
+        </div>
+
+        <div class="research-card">
+          <div class="research-icon">🧠</div>
+          <h3>Neurosymbolic Reasoning</h3>
+          <p>
+            Combining the pattern-matching strengths of neural networks with the
+            precision of symbolic AI. I work on hybrid systems for program repair,
+            formal verification, and code generation.
+          </p>
+          <div class="tag-list">
+            <span class="tag">Neurosymbolic AI</span>
+            <span class="tag">Formal Methods</span>
+            <span class="tag">ML</span>
+          </div>
+        </div>
+
+        <div class="research-card">
+          <div class="research-icon">🤝</div>
+          <h3>Human-AI Interaction in Dev Tools</h3>
+          <p>
+            Empirically studying how developers interact with AI-powered coding
+            assistants — mental models, trust calibration, and workflow integration.
+            I conduct user studies and build prototypes.
+          </p>
+          <div class="tag-list">
+            <span class="tag">User Studies</span>
+            <span class="tag">AI Assistants</span>
+            <span class="tag">HCI</span>
+          </div>
+        </div>
+
+        <div class="research-card">
+          <div class="research-icon">💬</div>
+          <h3>LLM Reasoning &amp; Prompting</h3>
+          <p>
+            Understanding and improving how large language models handle
+            multi-step compositional reasoning tasks, with a focus on
+            self-consistency, chain-of-thought, and structured prompting.
+          </p>
+          <div class="tag-list">
+            <span class="tag">LLMs</span>
+            <span class="tag">Prompting</span>
+            <span class="tag">Reasoning</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Active Projects -->
+    <div class="section-block">
+      <h2 class="section-heading">Active Projects</h2>
+
+      <div class="pub-list">
+
+        <div class="pub-card">
+          <span class="pub-venue" style="background:#e0f2fe; color:#0369a1;">In Progress</span>
+          <p class="pub-title">SynthChat: A Conversational Interface for Program Synthesis</p>
+          <p class="text-sm text-muted" style="margin-top:0.25rem; margin-bottom:0.5rem;">
+            A VS Code extension that lets developers describe what they want in natural
+            language, incrementally refine the specification through dialogue, and get
+            formally verified code back. Currently running a pilot study with 20 developers.
+          </p>
+          <div class="tag-list">
+            <span class="tag">Synthesis</span>
+            <span class="tag">NLP</span>
+            <span class="tag">Formal Verification</span>
+          </div>
+        </div>
+
+        <div class="pub-card">
+          <span class="pub-venue" style="background:#e0f2fe; color:#0369a1;">In Progress</span>
+          <p class="pub-title">SpecFuzz: Specification-Aware Fuzzing with LLM-Generated Test Oracles</p>
+          <p class="text-sm text-muted" style="margin-top:0.25rem; margin-bottom:0.5rem;">
+            Using LLMs to auto-generate differential test oracles from informal API documentation,
+            then running coverage-guided fuzzing to find spec violations.
+            Target: submission to PLDI 2027.
+          </p>
+          <div class="tag-list">
+            <span class="tag">Testing</span>
+            <span class="tag">Fuzzing</span>
+            <span class="tag">LLMs</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Collaborators -->
+    <div class="section-block">
+      <h2 class="section-heading">Collaborators &amp; Advisors</h2>
+      <ul style="list-style:none; display:flex; flex-direction:column; gap:0.6rem;">
+        <li class="text-sm">
+          <strong>Prof. Jordan Lee</strong> — PhD advisor · CMU SCS
+          <span class="text-muted">· neurosymbolic AI, program synthesis</span>
+        </li>
+        <li class="text-sm">
+          <strong>Prof. Angela Park</strong> — Undergraduate advisor · MIT CSAIL
+          <span class="text-muted">· verified compilation, type theory</span>
+        </li>
+        <li class="text-sm">
+          <strong>Priya Patel</strong> — PhD student, Stanford
+          <span class="text-muted">· LLM reasoning, NLP</span>
+        </li>
+        <li class="text-sm">
+          <strong>Marcus Webb</strong> — PhD student, CMU
+          <span class="text-muted">· program analysis, static analysis</span>
+        </li>
+        <li class="text-sm">
+          <strong>Sam Rivera</strong> — PhD student, CMU
+          <span class="text-muted">· machine learning, type systems</span>
+        </li>
+      </ul>
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>Built with ♥ and too much espresso · © 2026 Alex Chen</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

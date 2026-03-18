@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Publications — Alex Chen</title>
+  <meta name="description" content="Alex Chen's academic publications in machine learning, program synthesis, and human-AI interaction." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lora:wght@700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="site-logo" href="index.html">Alex<span>.</span>Chen</a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="6"  x2="19" y2="6"  />
+          <line x1="3" y1="11" x2="19" y2="11" />
+          <line x1="3" y1="16" x2="19" y2="16" />
+        </svg>
+      </button>
+      <nav class="site-nav" id="site-nav">
+        <a class="nav-link" href="index.html">About</a>
+        <a class="nav-link" href="research.html">Research</a>
+        <a class="nav-link" href="publications.html">Publications</a>
+        <a class="nav-link" href="blog/index.html">Blog</a>
+        <a class="nav-link" href="cv.html">CV</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-wrapper">
+    <h1 class="profile-name" style="margin-bottom:0.25rem;">Publications</h1>
+    <p class="text-muted text-sm" style="margin-bottom:2rem;">
+      * = equal contribution ·
+      <a href="https://scholar.google.com" target="_blank" rel="noopener">Google Scholar profile</a>
+    </p>
+
+    <!-- 2026 -->
+    <div class="section-block">
+      <h2 class="section-heading">2026</h2>
+      <div class="pub-list">
+
+        <div class="pub-card">
+          <span class="pub-venue">ICML 2026</span>
+          <p class="pub-title">
+            <a href="#">Reflective Prompting for Compositional Reasoning in Large Language Models</a>
+          </p>
+          <p class="pub-authors">
+            <span class="me">Alex Chen</span>, Priya Patel, Jordan Lee
+          </p>
+          <p class="text-sm text-muted">
+            We introduce <em>reflective prompting</em>, a chain-of-thought framework
+            that equips LLMs with structured self-critique to improve multi-step
+            compositional reasoning. Achieves state-of-the-art on ARC-C, MATH, and
+            our new CompositionalQA benchmark.
+          </p>
+          <div class="pub-links">
+            <a class="pub-link" href="#">📄 Paper</a>
+            <a class="pub-link" href="#">💾 Code</a>
+            <a class="pub-link" href="#">🎞️ Slides</a>
+            <a class="pub-link" href="#">🪧 Poster</a>
+          </div>
+        </div>
+
+        <div class="pub-card">
+          <span class="pub-venue">ICLR 2026</span>
+          <p class="pub-title">
+            <a href="#">Sketch-Guided Program Synthesis with Learned Hole Fillers</a>
+          </p>
+          <p class="pub-authors">
+            <span class="me">Alex Chen</span>*, Sam Rivera*, Jordan Lee
+          </p>
+          <p class="text-sm text-muted">
+            A hybrid synthesis approach where users sketch program structure
+            with typed holes, and a neural model learns to fill them under formal
+            correctness constraints.
+          </p>
+          <div class="pub-links">
+            <a class="pub-link" href="#">📄 Paper</a>
+            <a class="pub-link" href="#">💾 Code</a>
+            <a class="pub-link" href="#">🎞️ Slides</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 2025 -->
+    <div class="section-block">
+      <h2 class="section-heading">2025</h2>
+      <div class="pub-list">
+
+        <div class="pub-card">
+          <span class="pub-venue">NeurIPS 2025</span>
+          <p class="pub-title">
+            <a href="#">Neurosymbolic Program Repair via Gradient-Guided Search</a>
+          </p>
+          <p class="pub-authors">
+            <span class="me">Alex Chen</span>, Marcus Webb, Jordan Lee
+          </p>
+          <p class="text-sm text-muted">
+            We combine symbolic execution traces with differentiable edit operations,
+            enabling end-to-end trainable program repair that outperforms both
+            purely symbolic and purely neural baselines on SWE-bench.
+          </p>
+          <div class="pub-links">
+            <a class="pub-link" href="#">📄 Paper</a>
+            <a class="pub-link" href="#">💾 Code</a>
+            <a class="pub-link" href="#">🎞️ Talk</a>
+            <a class="pub-link" href="#">🪧 Poster</a>
+          </div>
+        </div>
+
+        <div class="pub-card">
+          <span class="pub-venue">CHI 2025</span>
+          <p class="pub-title">
+            <a href="#">Talking to the Machine: How Developers Mentally Model AI Code Assistants</a>
+          </p>
+          <p class="pub-authors">
+            Yuki Tanaka, <span class="me">Alex Chen</span>, Neha Gupta
+          </p>
+          <p class="text-sm text-muted">
+            A mixed-methods study of 48 developers using Copilot-like tools.
+            We surface five distinct mental models and propose design guidelines
+            for AI code assistants that better match user expectations.
+          </p>
+          <div class="pub-links">
+            <a class="pub-link" href="#">📄 Paper</a>
+            <a class="pub-link" href="#">🎞️ Talk</a>
+          </div>
+        </div>
+
+        <div class="pub-card">
+          <span class="pub-venue">PLDI 2025</span>
+          <p class="pub-title">
+            <a href="#">Type-Directed Program Synthesis for Verified Data Transformations</a>
+          </p>
+          <p class="pub-authors">
+            <span class="me">Alex Chen</span>, Angela Park
+          </p>
+          <p class="text-sm text-muted">
+            A synthesis framework that uses dependent types as
+            correctness specifications, producing verified-correct data
+            transformation pipelines with minimal user effort.
+          </p>
+          <div class="pub-links">
+            <a class="pub-link" href="#">📄 Paper</a>
+            <a class="pub-link" href="#">💾 Code</a>
+            <a class="pub-link" href="#">🎞️ Slides</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 2024 -->
+    <div class="section-block">
+      <h2 class="section-heading">2024</h2>
+      <div class="pub-list">
+
+        <div class="pub-card">
+          <span class="pub-venue">ICSE 2024</span>
+          <p class="pub-title">
+            <a href="#">BugScope: Localizing Bugs in Large Codebases with Slice-Based LLM Reasoning</a>
+          </p>
+          <p class="pub-authors">
+            <span class="me">Alex Chen</span>, Jordan Lee, Marcus Webb
+          </p>
+          <p class="text-sm text-muted">
+            BugScope combines static program slicing with LLM reasoning to efficiently
+            localize bugs in million-LOC codebases, reducing developer triage time by 63%.
+          </p>
+          <div class="pub-links">
+            <a class="pub-link" href="#">📄 Paper</a>
+            <a class="pub-link" href="#">💾 Code</a>
+          </div>
+        </div>
+
+        <div class="pub-card">
+          <span class="pub-venue">POPL 2024 — SRC</span>
+          <p class="pub-title">
+            <a href="#">Toward Interactive Program Synthesis: A Vision for Human-in-the-Loop PL Tools</a>
+          </p>
+          <p class="pub-authors">
+            <span class="me">Alex Chen</span>
+          </p>
+          <p class="text-sm text-muted">
+            Student Research Competition paper and talk proposing a research agenda
+            for interactive, human-in-the-loop program synthesis. 🥇 First place.
+          </p>
+          <div class="pub-links">
+            <a class="pub-link" href="#">📄 Extended Abstract</a>
+            <a class="pub-link" href="#">🎞️ Slides</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>Built with ♥ and too much espresso · © 2026 Alex Chen</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
