@@ -143,10 +143,13 @@ nav ul li a:hover {
   text-decoration: none;
 }
 
-.sidebar .social-links a i {
+.sidebar .social-links a i,
+.sidebar .social-links a svg {
   font-size: 0.9rem;
   width: 1.1rem;
+  height: 1.1rem;
   text-align: center;
+  flex-shrink: 0;
 }
 
 /* ---------- Main Body ---------- */
