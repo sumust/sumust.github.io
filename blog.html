@@ -67,6 +67,10 @@
         .then(function (r) { return r.json(); })
         .then(function (posts) {
           container.innerHTML = '';
+          if (posts.length === 0) {
+            container.innerHTML = '<p>No posts yet. Check back soon!</p>';
+            return;
+          }
           posts.forEach(function (post) {
             var card = document.createElement('article');
             card.className = 'blog-card';

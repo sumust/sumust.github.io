@@ -113,8 +113,8 @@ nav ul li a:hover {
 
 .sidebar .profile-photo {
   width: 200px;
-  height: auto;
-  border-radius: 8px;
+  height: 200px;
+  border-radius: 50%;
   object-fit: cover;
   display: block;
   margin-bottom: 1rem;
