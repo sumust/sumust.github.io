@@ -17,113 +17,80 @@
 <body>
 
   <nav>
-    <div class="nav-inner">
-      <a href="index.html" class="site-name">Your Name</a>
-      <button class="nav-toggle" aria-label="Toggle navigation">&#9776;</button>
-      <ul id="nav-menu">
-        <li><a href="publications.html">Publications</a></li>
-        <li><a href="blog.html">Blog</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </div>
+    <ul id="nav-menu">
+      <li><a href="index.html">home</a></li>
+      <li><a href="cv.pdf" target="_blank" rel="noopener">cv</a></li>
+      <li><a href="publications.html">research</a></li>
+      <li><a href="blog.html">blog</a></li>
+    </ul>
   </nav>
 
-  <header class="hero">
-    <div class="hero-inner">
+  <main class="content">
+    <div class="sidebar">
       <img
         class="profile-photo"
         src="images/profile.jpg"
         alt="Photo of Your Name"
         onerror="this.style.display='none'"
       >
-      <div class="hero-text">
-        <h1>Your Name</h1>
-        <p class="subtitle">PhD in Computer Science</p>
-        <p class="affiliation">Department of Computer Science, Your University</p>
-
-        <div class="social-links">
-          <a href="https://scholar.google.com/" target="_blank" rel="noopener"><i class="fa-solid fa-graduation-cap"></i> Scholar</a>
-          <a href="https://github.com/sumust" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> GitHub</a>
-          <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
-          <a href="cv.pdf" target="_blank" rel="noopener"><i class="fa-solid fa-file-pdf"></i> CV</a>
-        </div>
+      <div class="social-links">
+        <a href="https://github.com/sumust" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> GitHub</a>
+        <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+        <a href="https://scholar.google.com/" target="_blank" rel="noopener"><i class="fa-solid fa-graduation-cap"></i> Google Scholar</a>
       </div>
     </div>
-  </header>
 
-  <section id="about" class="fade-in-section">
-    <div class="container">
-      <div class="about-content">
-        <div class="bio">
-          <p>
-            I'm a PhD candidate in the
-            <a href="#">Department of Computer Science</a> at
-            <a href="#">Your University</a>, advised by
-            <a href="#">Prof. Advisor Name</a>.
-          </p>
-          <p>
-            My research focuses on <strong>[your area]</strong>, with an emphasis
-            on [specific topics]. I'm particularly interested in [brief
-            description of your passion/motivation].
-          </p>
+    <div class="main-body">
+      <h1>hi!</h1>
 
-          <blockquote class="bio-quote">
-            "The only way to do great work is to love what you do."
-          </blockquote>
-        </div>
-      </div>
+      <p>
+        I am a first year CS PhD student at UT Austin, advised by
+        <a href="#">Dr. Keshav Pingali</a> at the
+        <a href="#">Center for Distributed and Grid Computing</a> at the Oden Institute.
+      </p>
+
+      <p>
+        My research focuses on deep reinforcement learning, particularly multi-agent
+        learning and exploration in sparse-reward settings. I'm also interested in RLHF
+        and evolutionary methods.
+      </p>
+
+      <p>
+        During my undergraduate years I worked at the intersection of cybersecurity and
+        machine learning, and I'm still broadly interested in cybersecurity. I completed
+        my <a href="#">MS thesis</a> on hybrid evolutionary RL algorithms under the supervision of Dr.
+        Keshav Pingali and Dr. Risto Miikkulainen at UT Austin.
+      </p>
+
+      <p>
+        I am from Ankara, Turkey. You might also know me as Zelal.
+      </p>
+
+      <h2>interests</h2>
+      <ul>
+        <li>music (trip hop, metal, rock)</li>
+        <li>cars, racing, formula 1</li>
+        <li>games (bioshock, ultimate ninja storm, arkham trilogy)</li>
+        <li>aviation</li>
+        <li><a href="#">objectivism</a></li>
+      </ul>
+
+      <h2>tidbits about me</h2>
+      <ul>
+        <li>I daily drive a Camaro named Asuka</li>
+        <li>favorite movie: Exit Through The Gift Shop</li>
+        <li>favorite book: Atlas Shrugged by Ayn Rand</li>
+        <li>favorite paper: <a href="#">Proximal Policy Optimization Algorithms (Schulman et al., 2017)</a></li>
+      </ul>
     </div>
-  </section>
-
-  <section id="contact" class="fade-in-section">
-    <div class="container">
-      <h2>Contact</h2>
-      <div class="contact-info">
-        <p><a href="mailto:you@university.edu">you@university.edu</a></p>
-        <p>Room 123, CS Building</p>
-      </div>
-    </div>
-  </section>
+  </main>
 
   <footer>
-    <div class="footer-inner">
-      <div class="footer-social">
-        <a href="https://scholar.google.com/" target="_blank" rel="noopener" aria-label="Google Scholar"><i class="fa-solid fa-graduation-cap"></i></a>
-        <a href="https://github.com/sumust" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
-        <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
-      </div>
-      <p>&copy; <span id="year"></span> Your Name</p>
-    </div>
+    <p>&copy; <span id="year"></span> Your Name</p>
   </footer>
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
-
-    document.querySelector('.nav-toggle').addEventListener('click', function () {
-      document.getElementById('nav-menu').classList.toggle('open');
-    });
-    document.querySelectorAll('#nav-menu a').forEach(function (link) {
-      link.addEventListener('click', function () {
-        document.getElementById('nav-menu').classList.remove('open');
-      });
-    });
-
-    (function () {
-      var sections = document.querySelectorAll('.fade-in-section');
-      if (!('IntersectionObserver' in window)) {
-        sections.forEach(function (s) { s.classList.add('is-visible'); });
-        return;
-      }
-      var observer = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.12 });
-      sections.forEach(function (s) { observer.observe(s); });
-    })();
   </script>
 </body>
 </html>

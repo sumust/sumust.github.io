@@ -17,16 +17,12 @@
 <body>
 
   <nav>
-    <div class="nav-inner">
-      <a href="index.html" class="site-name">Your Name</a>
-      <button class="nav-toggle" aria-label="Toggle navigation">&#9776;</button>
-      <ul id="nav-menu">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="publications.html">Publications</a></li>
-        <li><a href="blog.html" class="active">Blog</a></li>
-        <li><a href="index.html#contact">Contact</a></li>
-      </ul>
-    </div>
+    <ul id="nav-menu">
+      <li><a href="index.html">home</a></li>
+      <li><a href="cv.pdf" target="_blank" rel="noopener">cv</a></li>
+      <li><a href="publications.html">research</a></li>
+      <li><a href="blog.html" class="active">blog</a></li>
+    </ul>
   </nav>
 
   <header class="page-header">
@@ -43,27 +39,11 @@
   </section>
 
   <footer>
-    <div class="footer-inner">
-      <div class="footer-social">
-        <a href="https://scholar.google.com/" target="_blank" rel="noopener" aria-label="Google Scholar"><i class="fa-solid fa-graduation-cap"></i></a>
-        <a href="https://github.com/sumust" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
-        <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
-      </div>
-      <p>&copy; <span id="year"></span> Your Name</p>
-    </div>
+    <p>&copy; <span id="year"></span> Your Name</p>
   </footer>
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
-
-    document.querySelector('.nav-toggle').addEventListener('click', function () {
-      document.getElementById('nav-menu').classList.toggle('open');
-    });
-    document.querySelectorAll('#nav-menu a').forEach(function (link) {
-      link.addEventListener('click', function () {
-        document.getElementById('nav-menu').classList.remove('open');
-      });
-    });
 
     (function () {
       var container = document.getElementById('blog-list');
