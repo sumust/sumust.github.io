@@ -164,17 +164,15 @@ nav ul li a:hover {
 
 .main-body h2 {
   font-family: var(--font-sans);
-  font-weight: 700;
+  font-weight: 600;
   font-size: 1.05rem;
-  font-style: italic;
   color: var(--color-heading);
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
 }
 
 .main-body p {
-  font-style: italic;
-  font-weight: 600;
+  font-weight: 400;
   margin-bottom: 0.9rem;
 }
 
