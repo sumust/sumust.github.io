@@ -12,15 +12,15 @@
 }
 
 :root {
-  --color-bg: #0a0a0e;
-  --color-bg-alt: #0f0f14;
-  --color-surface: #141419;
-  --color-text: #a8a8b8;
-  --color-text-light: #606074;
-  --color-heading: #d4d4de;
-  --color-accent: #7a9bae;
-  --color-accent-dim: #4b6878;
-  --color-border: #1a1a24;
+  --color-bg: #0c0c0c;
+  --color-bg-alt: #111111;
+  --color-surface: #161616;
+  --color-text: #a8a29e;
+  --color-text-light: #6b6560;
+  --color-heading: #e8e6e3;
+  --color-accent: #c4956a;
+  --color-accent-dim: #8a6844;
+  --color-border: #1e1e1c;
   --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono: "SF Mono", "Fira Code", "Fira Mono", Menlo, monospace;
   --max-width: 720px;
@@ -49,7 +49,7 @@ a {
 }
 
 a:hover {
-  color: #9bbccc;
+  color: #d4a87e;
 }
 
 img {
@@ -67,7 +67,7 @@ nav {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(10, 10, 14, 0.85);
+  background: rgba(12, 12, 12, 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--color-border);
@@ -199,7 +199,7 @@ nav ul li a.active {
 .hero .social-links a:hover {
   color: var(--color-heading);
   border-color: var(--color-accent-dim);
-  background: rgba(122, 155, 174, 0.06);
+  background: rgba(196, 149, 106, 0.06);
   text-decoration: none;
 }
 
@@ -348,7 +348,7 @@ section h2 {
 }
 
 .publication-card:hover {
-  border-color: #252535;
+  border-color: #252420;
 }
 
 .pub-type-badge {
@@ -363,13 +363,13 @@ section h2 {
 }
 
 .pub-type-badge.conference {
-  background: rgba(122, 155, 174, 0.12);
+  background: rgba(196, 149, 106, 0.12);
   color: var(--color-accent);
 }
 
 .pub-type-badge.journal {
-  background: rgba(100, 140, 180, 0.12);
-  color: #6a9ec0;
+  background: rgba(122, 154, 172, 0.12);
+  color: #7a9aac;
 }
 
 .pub-type-badge.preprint {
@@ -436,7 +436,7 @@ section h2 {
 }
 
 .blog-card:hover {
-  border-color: #252535;
+  border-color: #252420;
 }
 
 .blog-card-meta {
@@ -454,7 +454,7 @@ section h2 {
 
 .blog-tag {
   background: var(--color-accent-dim);
-  color: #c0c0cc;
+  color: #c0bcb8;
   font-size: 0.68rem;
   font-weight: 600;
   text-transform: uppercase;
