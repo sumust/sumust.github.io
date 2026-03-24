@@ -5,9 +5,9 @@
   var slug = params.get('post');
 
   if (!slug) {
-    var pathParts = window.location.pathname.replace(/\/index\.html$/, '').replace(/\/$/, '').split('/');
-    var lastSegment = pathParts[pathParts.length - 1];
-    if (lastSegment && lastSegment !== 'post.html' && lastSegment !== 'post' && lastSegment !== 'blog') {
+    var cleanPath = window.location.pathname.replace(/\/(?:index\.html)?$/, '');
+    var lastSegment = cleanPath.split('/').pop();
+    if (lastSegment && !['post.html', 'post', 'blog'].includes(lastSegment)) {
       slug = lastSegment;
     }
   }
