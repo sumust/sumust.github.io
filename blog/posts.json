@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "slug": "rosenbrock-explorer",
+    "title": "Rosenbrock Explorer",
+    "date": "2026-03-24",
+    "tag": "optimization",
+    "summary": "An interactive visualization of the Rosenbrock function — drag a point around the contour plot to compare gradient descent and Newton's method in real time.",
+    "readTime": "2 min read"
+  }
+]
