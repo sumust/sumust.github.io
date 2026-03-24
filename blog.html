@@ -38,7 +38,6 @@
   <header class="page-header">
     <div class="container">
       <h1>Blog</h1>
-      <p>WIP</p>
     </div>
   </header>
 
@@ -79,9 +78,9 @@
                 '<span class="blog-date">' + formatDate(post.date) + '</span>' +
                 '<span class="blog-tag">' + post.tag + '</span>' +
               '</div>' +
-              '<h2><a href="blog/post.html?post=' + encodeURIComponent(post.slug) + '">' + post.title + '</a></h2>' +
+              '<h2><a href="blog/' + encodeURIComponent(post.slug) + '/">' + post.title + '</a></h2>' +
               '<p>' + post.summary + '</p>' +
-              '<a href="blog/post.html?post=' + encodeURIComponent(post.slug) + '" class="read-more">Read more <i class="fa-solid fa-arrow-right"></i></a>';
+              '<a href="blog/' + encodeURIComponent(post.slug) + '/" class="read-more">Read more <i class="fa-solid fa-arrow-right"></i></a>';
             container.appendChild(card);
           });
         })
