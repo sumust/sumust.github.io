@@ -1,6 +1,6 @@
 # Trust Regions, Natural Gradients, TRPO, PPO
 
-These are notes from working through trust region methods, starting from the basics of nonlinear optimization and ending at TRPO and PPO. I wrote this because every TRPO derivation I've seen starts from the policy gradient and bolts on a KL constraint, which makes the natural gradient look like a hack. It is not a hack. It is the right answer to a question about geometry, and the question only makes sense if you've thought about trust regions in the classical setting first.
+These are notes from working through trust region methods, starting from the basics of nonlinear optimization and ending at TRPO and PPO.
 
 The path is: iterative methods for nonlinear optimization, Newton's method and its failure modes, line search and trust regions as two ways to control the step, the trust region subproblem, why the Euclidean ball is the wrong region for policies, KL divergence as the right notion of distance, the Fisher matrix as the local form of KL, the natural gradient as steepest ascent under the Fisher metric, and TRPO as the natural gradient applied to the importance-sampled surrogate. PPO at the end as a deliberate weakening of the construction.
 
