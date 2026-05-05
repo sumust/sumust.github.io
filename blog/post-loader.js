@@ -53,7 +53,11 @@
           }
 
           var cleanMd = md.replace(/^#\s+.+\n*/, '');
+          marked.use({ gfm: true, breaks: false });
           bodyEl.innerHTML = marked.parse(cleanMd);
+          if (window.MathJax && window.MathJax.typesetPromise) {
+            window.MathJax.typesetPromise([bodyEl]);
+          }
         });
     })
     .catch(function () {

@@ -1,5 +1,12 @@
 [
   {
+    "slug": "trust_regions",
+    "title": "Trust Regions, Natural Gradients, TRPO, PPO",
+    "date": "2026-05-05",
+    "tag": "optimization",
+    "summary": "Notes on trust region methods: from Newton's method and its failure modes, through line search and trust regions, the KL geometry of policy space, the Fisher matrix and natural gradient, to TRPO and PPO."
+  },
+  {
     "slug": "rosenbrock-explorer",
     "title": "Rosenbrock Explorer",
     "date": "2026-03-24",
