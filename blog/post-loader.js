@@ -47,7 +47,8 @@
                 '<span>' + formatDate(meta.date) + '</span>' +
                 '<span class="blog-tag">' + meta.tag + '</span>' +
               '</div>' +
-              '<h1>' + meta.title + '</h1>';
+              '<h1>' + meta.title + '</h1>' +
+              '<p class="post-author">By ' + (meta.author || 'Lain Mustafaoglu') + '</p>';
           } else {
             headerEl.innerHTML = '';
           }

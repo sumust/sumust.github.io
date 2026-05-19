@@ -3,6 +3,7 @@
     "slug": "trust_regions",
     "title": "Trust Regions, Natural Gradients, TRPO, PPO",
     "date": "2026-05-05",
+    "author": "Lain Mustafaoglu",
     "tag": "optimization",
     "summary": "Notes on trust region methods: from Newton's method and its failure modes, through line search and trust regions, the KL geometry of policy space, the Fisher matrix and natural gradient, to TRPO and PPO."
   },
