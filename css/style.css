@@ -514,6 +514,12 @@ section h2 {
   letter-spacing: -0.025em;
 }
 
+.post-author {
+  margin-top: 0.4rem;
+  color: var(--color-text-light);
+  font-size: 0.9rem;
+}
+
 .post-body h2 {
   font-family: var(--font-sans);
   font-weight: 700;
