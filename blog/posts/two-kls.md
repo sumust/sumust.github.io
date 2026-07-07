@@ -1,6 +1,6 @@
 # The Two KLs
 
-*Part 4 of a five-part series on trust regions: [1. Rosenbrock Explorer](/blog/rosenbrock-explorer/) · [2. The Trust Region Subproblem](/blog/trust-region-subproblem/) · [3. Trust Regions, Natural Gradients, TRPO, PPO](/blog/trust_regions/) · [4. The Two KLs](/blog/two-kls/) · [5. GRPO, or What the Critic Was For](/blog/grpo/)*
+*Part 4 of a series on trust regions. The main line is [3. Trust Regions, Natural Gradients, TRPO, PPO](/blog/trust_regions/) · [4. The Two KLs](/blog/two-kls/) · [5. GRPO, or What the Critic Was For](/blog/grpo/). Two shorter companions set it up: [1. Rosenbrock Explorer](/blog/rosenbrock-explorer/) · [2. The Trust Region Subproblem](/blog/trust-region-subproblem/).*
 
 The [previous post](/blog/trust_regions/) ends with two questions to ask of any policy optimization method: what distance is being bounded, and what enforces the bound. Language model fine-tuning has a KL term too, and on the page it looks just like the trust region one. It is not the same object. It is anchored somewhere else, it is enforced somewhere else, and it is doing a different job. Both get called "the KL penalty," which is how people end up confused.
 
@@ -22,9 +22,9 @@ $$
 
 where $r$ is a learned reward model and $\pi_{ref}$ is a *fixed* reference policy, usually the model as it stood before RL began. The anchor never moves. Train for a thousand updates and the penalty still measures distance to the same frozen model it measured on step one.
 
-A fixed anchor bounds destination, not speed. You can move as fast as your optimizer allows, but you cannot end up far from the reference without paying for every unit of distance, forever. And the job is different too: this KL protects the *model*, not the optimization. The reward model is only trustworthy near the distribution it was trained on; optimize hard enough without the leash and you find its bugs: degenerate text that scores beautifully. The penalty also has a blunter purpose: it keeps the policy a language model at all, instead of whatever distribution happens to maximize a learned scalar.
+A fixed anchor limits the destination, not the speed, and it does so softly, as a price rather than a wall. You can move as fast as your optimizer allows, and no policy is forbidden outright; you pay for every unit of distance from the reference, forever, and the optimum settles where extra reward stops being worth the extra price. And the job is different too: this KL protects the *model*, not the optimization. The reward model is only trustworthy near the distribution it was trained on; optimize hard enough without the leash and you find its bugs: degenerate text that scores beautifully. The penalty also has a blunter purpose: it keeps the policy a language model at all, instead of whatever distribution happens to maximize a learned scalar.
 
-One structural detail worth noticing: the expectation in this KL runs under $\pi$, not under the reference. That direction charges an infinite price for putting probability where the reference has essentially none. The policy can sharpen inside the reference's support, but it cannot wander off it.
+One structural detail worth noticing: the expectation in this KL runs under $\pi$, not under the reference. That direction is punishing about new territory: the price is infinite where the reference assigns exactly zero probability, and large wherever the reference probability is very small. The policy can sharpen what the reference already does; it cannot cheaply wander away from it.
 
 ## 3. It moves the answer
 
@@ -69,7 +69,7 @@ This recipe, small local updates plus a KL to a frozen reference inside the rewa
 Two KLs, two jobs:
 
 1. The trust region KL is anchored to the previous iterate and re-centered after every update. It bounds how fast the policy moves. It is enforced by the algorithm, appears nowhere in the objective, and vanishes from the answer: it never changes which policies are optimal. It exists to protect the optimization.
-2. The reference KL is anchored to a frozen model and never moves. It bounds where the policy is allowed to end up. It sits inside the objective and reshapes the optimum itself, into the reference tilted by the reward. It exists to protect the model.
+2. The reference KL is anchored to a frozen model and never moves. It prices distance from that model and so decides, softly, where the policy ends up. It sits inside the objective and reshapes the optimum itself, into the reference tilted by the reward. It exists to protect the model.
 
 So when a paper says "we add a KL penalty," the first question is which one: where is the anchor, and does it move? Everything else about what the term is doing follows from that.
 

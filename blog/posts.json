@@ -16,14 +16,6 @@
     "summary": "TRPO's KL and the KL penalty in language-model fine-tuning share a formula and nothing else: one is re-centered every step and bounds how fast the policy moves, the other is anchored to a frozen reference and decides where the policy is allowed to end up."
   },
   {
-    "slug": "trust-region-subproblem",
-    "title": "The Trust Region Subproblem",
-    "date": "2026-07-07",
-    "author": "Lain Mustafaoglu",
-    "tag": "optimization",
-    "summary": "The subproblem done properly: what the exact solution looks like, why the convergence theory rests on the Cauchy point, why the dogleg path is well-posed, and truncated conjugate gradient for problems too big to factor."
-  },
-  {
     "slug": "trust_regions",
     "title": "Trust Regions, Natural Gradients, TRPO, PPO",
     "date": "2026-05-05",
@@ -31,6 +23,14 @@
     "tag": "optimization",
     "summary": "Notes on trust region methods: from Newton's method and its failure modes, through line search and trust regions, the KL geometry of policy space, the Fisher matrix and natural gradient, to TRPO and PPO. With an interactive bandit explorer.",
     "updated": "2026-07-07"
+  },
+  {
+    "slug": "trust-region-subproblem",
+    "title": "The Trust Region Subproblem",
+    "date": "2026-07-07",
+    "author": "Lain Mustafaoglu",
+    "tag": "optimization",
+    "summary": "The subproblem done properly: what the exact solution looks like, why the convergence theory rests on the Cauchy point, why the dogleg path is well-posed, and truncated conjugate gradient for problems too big to factor."
   },
   {
     "slug": "rosenbrock-explorer",

@@ -54,8 +54,21 @@
           }
 
           var cleanMd = md.replace(/^#\s+.+\n*/, '');
+          // keep marked away from TeX: it would eat \! \, \\ and underscores
+          var mathBlocks = [];
+          var protectedMd = cleanMd.replace(/\$\$[\s\S]*?\$\$|\$[^\n$]+\$/g, function (m) {
+            mathBlocks.push(m);
+            return '@@MATH' + (mathBlocks.length - 1) + '@@';
+          });
           marked.use({ gfm: true, breaks: false });
-          bodyEl.innerHTML = marked.parse(cleanMd);
+          var htmlOut = marked.parse(protectedMd);
+          htmlOut = htmlOut.replace(/@@MATH(\d+)@@/g, function (_, i) {
+            return mathBlocks[+i]
+              .replace(/&/g, '&amp;')
+              .replace(/</g, '&lt;')
+              .replace(/>/g, '&gt;');
+          });
+          bodyEl.innerHTML = htmlOut;
           if (window.MathJax && window.MathJax.typesetPromise) {
             window.MathJax.typesetPromise([bodyEl]);
           }

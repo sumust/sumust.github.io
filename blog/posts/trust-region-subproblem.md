@@ -1,6 +1,6 @@
 # The Trust Region Subproblem
 
-*Part 2 of a five-part series on trust regions: [1. Rosenbrock Explorer](/blog/rosenbrock-explorer/) · [2. The Trust Region Subproblem](/blog/trust-region-subproblem/) · [3. Trust Regions, Natural Gradients, TRPO, PPO](/blog/trust_regions/) · [4. The Two KLs](/blog/two-kls/) · [5. GRPO, or What the Critic Was For](/blog/grpo/)*
+*Part 2 of a series on trust regions. The main line is [3. Trust Regions, Natural Gradients, TRPO, PPO](/blog/trust_regions/) · [4. The Two KLs](/blog/two-kls/) · [5. GRPO, or What the Critic Was For](/blog/grpo/). Two shorter companions set it up: [1. Rosenbrock Explorer](/blog/rosenbrock-explorer/) · [2. The Trust Region Subproblem](/blog/trust-region-subproblem/).*
 
 The [next post in this series](/blog/trust_regions/) needs exactly one fact about the trust region subproblem: that you can solve it approximately with conjugate gradient and stop early. This post is the subproblem done properly: what the exact solution looks like, the two classical approximations, and why the crude one secretly carries the convergence theory.
 

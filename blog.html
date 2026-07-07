@@ -45,10 +45,39 @@
 
   <section class="blog-listing">
     <div class="container">
-      <p class="series-note" style="color:#a8a8a8;font-size:.95rem;line-height:1.65;margin:0 0 1.75rem">The five posts below form a series on trust regions. It starts at Newton's method and ends at GRPO, with interactive demos along the way. Reading order: <a href="blog/rosenbrock-explorer/">1. Rosenbrock Explorer</a> &middot; <a href="blog/trust-region-subproblem/">2. The Trust Region Subproblem</a> &middot; <a href="blog/trust_regions/">3. Trust Regions, Natural Gradients, TRPO, PPO</a> &middot; <a href="blog/two-kls/">4. The Two KLs</a> &middot; <a href="blog/grpo/">5. GRPO, or What the Critic Was For</a>.</p>
+      <p class="series-note" style="color:#a8a8a8;font-size:.95rem;line-height:1.65;margin:0 0 1.75rem">The core of this blog right now is a three-post run on trust regions in policy optimization: <a href="blog/trust_regions/">Trust Regions, Natural Gradients, TRPO, PPO</a>, <a href="blog/two-kls/">The Two KLs</a>, and <a href="blog/grpo/">GRPO, or What the Critic Was For</a>. Two shorter companion pieces support them: the <a href="blog/rosenbrock-explorer/">Rosenbrock Explorer</a>, an interactive warm-up on why curvature matters, and <a href="blog/trust-region-subproblem/">The Trust Region Subproblem</a>, the numerical optimization details done properly.</p>
     </div>
     <div class="container" id="blog-list">
-      <p class="loading-msg">Loading posts...</p>
+      <article class="blog-card">
+        <div class="blog-card-meta"><span class="blog-date">July 7, 2026</span><span class="blog-tag">rl</span></div>
+        <h2><a href="blog/grpo/">GRPO, or What the Critic Was For</a></h2>
+        <p>PPO minus the value network, explained from the bottom: what a baseline is, why the value function is not the optimal one, how RLHF collapsed the problem to a bandit, and why that made the critic deletable. With an interactive baseline explorer.</p>
+        <a href="blog/grpo/" class="read-more">Read more <i class="fa-solid fa-arrow-right"></i></a>
+      </article>
+      <article class="blog-card">
+        <div class="blog-card-meta"><span class="blog-date">July 7, 2026</span><span class="blog-tag">rl</span></div>
+        <h2><a href="blog/two-kls/">The Two KLs</a></h2>
+        <p>TRPO's KL and the KL penalty in language-model fine-tuning share a formula and nothing else: one is re-centered every step and bounds how fast the policy moves, the other is anchored to a frozen reference and decides where the policy is allowed to end up.</p>
+        <a href="blog/two-kls/" class="read-more">Read more <i class="fa-solid fa-arrow-right"></i></a>
+      </article>
+      <article class="blog-card">
+        <div class="blog-card-meta"><span class="blog-date">May 5, 2026 · updated July 7, 2026</span><span class="blog-tag">optimization</span></div>
+        <h2><a href="blog/trust_regions/">Trust Regions, Natural Gradients, TRPO, PPO</a></h2>
+        <p>Notes on trust region methods: from Newton's method and its failure modes, through line search and trust regions, the KL geometry of policy space, the Fisher matrix and natural gradient, to TRPO and PPO. With an interactive bandit explorer.</p>
+        <a href="blog/trust_regions/" class="read-more">Read more <i class="fa-solid fa-arrow-right"></i></a>
+      </article>
+      <article class="blog-card">
+        <div class="blog-card-meta"><span class="blog-date">July 7, 2026</span><span class="blog-tag">optimization</span></div>
+        <h2><a href="blog/trust-region-subproblem/">The Trust Region Subproblem</a></h2>
+        <p>The subproblem done properly: what the exact solution looks like, why the convergence theory rests on the Cauchy point, why the dogleg path is well-posed, and truncated conjugate gradient for problems too big to factor.</p>
+        <a href="blog/trust-region-subproblem/" class="read-more">Read more <i class="fa-solid fa-arrow-right"></i></a>
+      </article>
+      <article class="blog-card">
+        <div class="blog-card-meta"><span class="blog-date">March 24, 2026 · updated July 7, 2026</span><span class="blog-tag">optimization</span></div>
+        <h2><a href="blog/rosenbrock-explorer/">Rosenbrock Explorer</a></h2>
+        <p>An interactive visualization of the Rosenbrock function — drag a point around the contour plot to compare gradient descent and Newton's method in real time.</p>
+        <a href="blog/rosenbrock-explorer/" class="read-more">Read more <i class="fa-solid fa-arrow-right"></i></a>
+      </article>
     </div>
   </section>
 

@@ -693,3 +693,13 @@ footer a:hover {
     font-size: 1.4rem;
   }
 }
+
+/* long-form post typography */
+.blog-post .container { max-width: 740px; }
+.blog-post .post-body { font-size: 17px; line-height: 1.75; }
+.blog-post .post-body iframe {
+  display: block;
+  width: min(1100px, 94vw);
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
