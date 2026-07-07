@@ -44,7 +44,7 @@
             document.title = meta.title + ' - Lain Mustafaoglu';
             headerEl.innerHTML =
               '<div class="post-meta">' +
-                '<span>' + formatDate(meta.date) + '</span>' +
+                '<span>' + formatDate(meta.date) + (meta.updated ? ' · updated ' + formatDate(meta.updated) : '') + '</span>' +
                 '<span class="blog-tag">' + meta.tag + '</span>' +
               '</div>' +
               '<h1>' + meta.title + '</h1>' +

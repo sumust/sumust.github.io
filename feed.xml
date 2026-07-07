@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Lain Mustafaoglu</title>
+    <link>https://sumust.github.io/blog.html</link>
+    <description>Notes on optimization and reinforcement learning.</description>
+    <item>
+      <title>GRPO, or What the Critic Was For</title>
+      <link>https://sumust.github.io/blog/grpo/</link>
+      <guid>https://sumust.github.io/blog/grpo/</guid>
+      <pubDate>2026-07-07T00:00:00Z</pubDate>
+      <description>PPO minus the value network, explained from the bottom: what a baseline is, why the value function is not the optimal one, how RLHF collapsed the problem to a bandit, and why that made the critic deletable. With an interactive baseline explorer.</description>
+    </item>
+    <item>
+      <title>The Two KLs</title>
+      <link>https://sumust.github.io/blog/two-kls/</link>
+      <guid>https://sumust.github.io/blog/two-kls/</guid>
+      <pubDate>2026-07-07T00:00:00Z</pubDate>
+      <description>TRPO&#x27;s KL and the KL penalty in language-model fine-tuning share a formula and nothing else: one is re-centered every step and bounds how fast the policy moves, the other is anchored to a frozen reference and decides where the policy is allowed to end up.</description>
+    </item>
+    <item>
+      <title>The Trust Region Subproblem</title>
+      <link>https://sumust.github.io/blog/trust-region-subproblem/</link>
+      <guid>https://sumust.github.io/blog/trust-region-subproblem/</guid>
+      <pubDate>2026-07-07T00:00:00Z</pubDate>
+      <description>The subproblem done properly: what the exact solution looks like, why the convergence theory rests on the Cauchy point, why the dogleg path is well-posed, and truncated conjugate gradient for problems too big to factor.</description>
+    </item>
+    <item>
+      <title>Trust Regions, Natural Gradients, TRPO, PPO</title>
+      <link>https://sumust.github.io/blog/trust_regions/</link>
+      <guid>https://sumust.github.io/blog/trust_regions/</guid>
+      <pubDate>2026-05-05T00:00:00Z</pubDate>
+      <description>Notes on trust region methods: from Newton&#x27;s method and its failure modes, through line search and trust regions, the KL geometry of policy space, the Fisher matrix and natural gradient, to TRPO and PPO. With an interactive bandit explorer.</description>
+    </item>
+    <item>
+      <title>Rosenbrock Explorer</title>
+      <link>https://sumust.github.io/blog/rosenbrock-explorer/</link>
+      <guid>https://sumust.github.io/blog/rosenbrock-explorer/</guid>
+      <pubDate>2026-03-24T00:00:00Z</pubDate>
+      <description>An interactive visualization of the Rosenbrock function — drag a point around the contour plot to compare gradient descent and Newton&#x27;s method in real time.</description>
+    </item>
+  </channel>
+</rss>

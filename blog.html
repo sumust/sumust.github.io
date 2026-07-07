@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="dark">
   <title>Lain's Blog</title>
-  <meta name="description" content="Lain's blog.">
+  <meta name="description" content="Lain Mustafaoglu's blog — notes on optimization and reinforcement learning, with interactive explorers: trust regions, natural gradients, TRPO, PPO, GRPO.">
+  <link rel="canonical" href="https://sumust.github.io/blog.html">
+  <link rel="alternate" type="application/rss+xml" title="Lain Mustafaoglu" href="/feed.xml">
 
   <style>
     body{background:#080808;color:#fff;font-family:"Space Grotesk",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;margin:0}
@@ -42,6 +44,9 @@
   </header>
 
   <section class="blog-listing">
+    <div class="container">
+      <p class="series-note" style="color:#a8a8a8;font-size:.95rem;line-height:1.65;margin:0 0 1.75rem">The five posts below form a series on trust regions. It starts at Newton's method and ends at GRPO, with interactive demos along the way. Reading order: <a href="blog/rosenbrock-explorer/">1. Rosenbrock Explorer</a> &middot; <a href="blog/trust-region-subproblem/">2. The Trust Region Subproblem</a> &middot; <a href="blog/trust_regions/">3. Trust Regions, Natural Gradients, TRPO, PPO</a> &middot; <a href="blog/two-kls/">4. The Two KLs</a> &middot; <a href="blog/grpo/">5. GRPO, or What the Critic Was For</a>.</p>
+    </div>
     <div class="container" id="blog-list">
       <p class="loading-msg">Loading posts...</p>
     </div>
@@ -75,7 +80,7 @@
             card.className = 'blog-card';
             card.innerHTML =
               '<div class="blog-card-meta">' +
-                '<span class="blog-date">' + formatDate(post.date) + '</span>' +
+                '<span class="blog-date">' + formatDate(post.date) + (post.updated ? ' · updated ' + formatDate(post.updated) : '') + '</span>' +
                 '<span class="blog-tag">' + post.tag + '</span>' +
               '</div>' +
               '<h2><a href="blog/' + encodeURIComponent(post.slug) + '/">' + post.title + '</a></h2>' +

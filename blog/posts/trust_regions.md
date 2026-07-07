@@ -1,8 +1,12 @@
 # Trust Regions, Natural Gradients, TRPO, PPO
 
+*Part 3 of a five-part series on trust regions: [1. Rosenbrock Explorer](/blog/rosenbrock-explorer/) · [2. The Trust Region Subproblem](/blog/trust-region-subproblem/) · [3. Trust Regions, Natural Gradients, TRPO, PPO](/blog/trust_regions/) · [4. The Two KLs](/blog/two-kls/) · [5. GRPO, or What the Critic Was For](/blog/grpo/)*
+
 These are notes from working through trust region methods, starting from the basics of nonlinear optimization and ending at TRPO and PPO.
 
 The path is: iterative methods for nonlinear optimization, Newton's method and its failure modes, line search and trust regions as two ways to control the step, the trust region subproblem, why the Euclidean ball is the wrong region for policies, KL divergence as the right notion of distance, the Fisher matrix as the local form of KL, the natural gradient as steepest ascent under the Fisher metric, and TRPO as the natural gradient applied to the importance-sampled surrogate. PPO at the end as a deliberate weakening of the construction.
+
+One example runs through the whole post: a two-action bandit with a single parameter. Every object that appears (the gradient, the Fisher matrix, the KL ball, the natural gradient, the trust region step) can be computed on it by hand, and each one will be.
 
 ## 1. The setting
 
@@ -54,31 +58,13 @@ The reason the trust region perspective matters more than line search for what c
 
 ## 4. Solving the trust region subproblem
 
-Assuming $B_k$ is positive definite, the trust region subproblem has three cases.
+Assume $B_k$ is positive definite. If the Newton step fits inside the region, $\|B_k^{-1} g_k\| \le \Delta_k$, take it; the constraint is slack. Otherwise the solution lies on the boundary $\|p\| = \Delta_k$, and the question becomes how to find a good boundary step cheaply.
 
-**Newton step inside.** If $\|B_k^{-1} g_k\| \le \Delta_k$, take the Newton step. The unconstrained minimum is in the trust region, no constraint binds.
+The classical answers are approximations. The **Cauchy point** minimizes the model along the steepest descent direction and truncates at the boundary; it is cheap, and it ignores curvature. **Dogleg**, due to Powell, does better by walking a two-segment path: from the zero step to the unconstrained minimizer along the steepest descent direction, then from there toward the Newton step, stopping where the path crosses the boundary. The path is a cheap sketch of the true solution curve: as $\Delta_k$ grows from zero to infinity, the exact solution of the subproblem traces a curve that leaves along $-g_k$ and bends toward the Newton step, and the dogleg approximates that curve with two line segments.
 
-**Newton step outside.** Then the optimal step lies on the boundary $\|p\| = \Delta_k$. There are two sub-strategies.
+For neural-network-scale problems, none of this is available as stated, because materializing $B_k$ at all is hopeless and even a Cholesky factorization is too expensive. The standard alternative is **truncated conjugate gradient**, due to Steihaug and Toint: run conjugate gradient on the linear system $B_k p = -g_k$, which only ever needs the product of $B_k$ with a vector, and stop early if the iterate leaves the trust region or a direction of negative curvature turns up. The result lands somewhere between the Cauchy point and the Newton step, depending on how many iterations you allow. The first CG iterate is exactly the Cauchy point, and further iterations bend the step toward Newton. Hold onto this one; it comes back as the engine inside TRPO.
 
-The crude one is the **Cauchy point**: minimize $m_k$ along the steepest descent ray $-g_k$. If the unconstrained minimizer along that ray is inside the trust region, take it. Otherwise truncate at the boundary. Closed-form result:
-
-$$
-p_k^C = -\tau_k \frac{\Delta_k}{\|g_k\|} g_k, \qquad
-\tau_k = \begin{cases}
-1 & \text{if } g_k^\top B_k g_k \le 0, \\
-\min\left(1, \frac{\|g_k\|^3}{\Delta_k g_k^\top B_k g_k}\right) & \text{otherwise.}
-\end{cases}
-$$
-
-The Cauchy point is conservative and ignores curvature.
-
-The better one is **dogleg**, due to Powell. It builds a path from $x_k$ to the unconstrained Cauchy point, then from there to the Newton point, and walks along the path until it hits the trust region boundary. When $\Delta_k$ is small the step is mostly along the gradient leg (similar to steepest descent). When $\Delta_k$ is large the step gets close to the Newton point. The intuition is that dogleg approximates the gradient flow trajectory, which is the curve a small particle would trace if it always followed $-\nabla J$. Dogleg requires $B_k \succ 0$.
-
-The dogleg step is found by solving for $\lambda$ in $\|\lambda p_k^N + (1-\lambda) p_k^U\|^2 = \Delta_k^2$, where $p_k^U$ is the unconstrained Cauchy point and $p_k^N$ is the Newton step. This is a scalar quadratic equation.
-
-There is a useful fact about the relative norms. If $B_k$ is positive definite, then $\|p_k^U\| \le \|p_k^N\|$. This is a Cauchy-Schwarz consequence: writing things in the eigenbasis of $B_k$ and using probability-distribution form, $1 \le (E[\lambda])^2 E[1/\lambda^2]$. So when both points are outside the trust region, the unconstrained Cauchy point is the closer one to clamp toward.
-
-For neural-network-scale problems, materializing $B_k$ is hopeless and even Cholesky is too expensive. The standard alternative is **truncated CG**, also called Steihaug-Toint: run conjugate gradient on the linear system $B_k p = -g_k$, but stop early if either the iterate leaves the trust region or a direction of negative curvature is found. The result is somewhere between the Cauchy point and the Newton point, depending on how much CG you do.
+This section is deliberately compressed. The subproblem gets [a post of its own](/blog/trust-region-subproblem/): the exact solution, why the convergence theory rests on the Cauchy point of all things, and why the dogleg path is well-posed.
 
 ## 5. Why this geometry is wrong for policies
 
@@ -98,9 +84,17 @@ $$
 
 up to the usual choice of advantage estimator and visitation weighting. So we have a gradient. We could plug it into a trust region method with the standard Euclidean ball $\|p\|_2 \le \Delta$ and run.
 
+One difference from section 1 raises the stakes. In supervised learning a bad update wastes a step; the data does not care what the model did. In RL the next batch is collected by whatever policy the last update produced, so a destructive step corrupts the data for every update after it, and the damage compounds. Step control is not a refinement here. It is the problem.
+
 The problem is that $\theta$ and $\pi_\theta$ are not the same kind of object. $\theta$ is a parameter vector. $\pi_\theta$ is a probability distribution. The Euclidean distance between two parameter vectors has no necessary relationship to how different the corresponding policies are.
 
-Sigmoid example. Take a two-action policy $\pi_\theta(a = 1) = \sigma(\theta)$ over a single state. A parameter step $\Delta\theta = 1$ near $\theta = 0$ moves the action probability from $0.50$ to $0.73$. The same $\Delta\theta = 1$ near $\theta = 5$ moves the probability from $0.993$ to $0.998$. Same Euclidean step, very different policy step. The reverse failure happens too: with a redundant parameterization, large motion in $\theta$ can correspond to negligible change in $\pi$.
+Here is the smallest example that shows it, set up properly because it runs through the rest of the post. One state, two actions. Action 1 pays reward $r_1$, action 0 pays reward $r_0$, and the policy is a single logit: $\pi_\theta(a = 1) = \sigma(\theta)$. Expected return is
+
+$$
+J(\theta) = \sigma(\theta)\, r_1 + (1 - \sigma(\theta))\, r_0.
+$$
+
+A parameter step $\Delta\theta = 1$ near $\theta = 0$ moves the probability of action 1 from $0.50$ to $0.73$. The same $\Delta\theta = 1$ near $\theta = 5$ moves it from $0.993$ to $0.998$. Same Euclidean step, very different policy step. The reverse failure happens too: with a redundant parameterization, large motion in $\theta$ can correspond to negligible change in $\pi$.
 
 The consequence is that running a Euclidean trust region method on $\theta$ produces a learning trajectory that depends on the parameterization. Rescale $\theta$, change basis, switch from logits to log-probabilities, and the dynamics change. This is bad for two reasons. First, you don't actually care about $\theta$, you care about $\pi$. Second, near saturation regions a Euclidean step does nothing to the policy, so the algorithm wastes capacity moving parameters that don't matter.
 
@@ -122,6 +116,14 @@ $$
 
 is the Fisher information matrix. So $F$ is the Hessian of KL at zero perturbation. KL is asymmetric, but the reverse direction $D_{KL}(\pi_{\theta + p} \,\|\, \pi_\theta)$ has the same Hessian at $p = 0$. The two directions only disagree at third order, so for trust region purposes the choice of which argument is the "old" policy is convention.
 
+In the bandit, all of this is computable by hand. The score $\frac{d}{d\theta} \log \pi_\theta(a)$ is $1 - \sigma(\theta)$ for action 1 and $-\sigma(\theta)$ for action 0, so
+
+$$
+F(\theta) = \sigma(\theta)\,(1 - \sigma(\theta))^2 + (1 - \sigma(\theta))\,\sigma(\theta)^2 = \sigma(\theta)(1 - \sigma(\theta)).
+$$
+
+One number, largest at $\theta = 0$ and collapsing toward zero at both saturated ends. The local quadratic form of the KL between the policies at $\theta$ and $\theta + p$ is $\tfrac{1}{2} \sigma(1 - \sigma) p^2$: out near saturation, a unit of parameter motion buys almost no policy motion, which is exactly what the sigmoid numbers in the previous section showed. The Fisher is the object that knows this.
+
 The Fisher matrix shows up in policy optimization not because of a coincidence about score functions, but because it is what KL's local quadratic always looks like. If we want a trust region in policy space, we want the constraint to be small KL, and locally that means small $p^\top F p$.
 
 ## 7. Natural gradient as a trust region method
@@ -138,15 +140,35 @@ $$
 p^\star = \sqrt{\frac{2 \Delta}{g^\top F^{-1} g}} \, F^{-1} g.
 $$
 
-The direction is $F^{-1} g$, which is called the natural gradient. The magnitude is set by the trust radius $\Delta$.
+The direction is $F^{-1} g$, which is called the natural gradient. The name is Amari's, from a broader theory of learning on curved parameter spaces. The magnitude is set by the trust radius $\Delta$.
 
-Two ways to think about this. First, it is the trust region step under the right notion of distance. Second, it is a preconditioned gradient where the preconditioner is the inverse Fisher. Directions that produce large policy shifts get damped, directions that barely move the policy get amplified. In the sigmoid example, near saturation $\|g\|$ can be large while $F$ is tiny, so $F^{-1} g$ comes out large, which is correct: you need a big parameter step to actually change the policy out there.
+Two ways to think about this. First, it is the trust region step under the right notion of distance. Second, it is a preconditioned gradient where the preconditioner is the inverse Fisher. Directions that produce large policy shifts get damped, directions that barely move the policy get amplified.
 
-There is a third interpretation that I think is underrated. Under compatible function approximation (where the critic is linear in the score $\nabla_\theta \log \pi_\theta$), the natural gradient direction agrees with a greedy policy improvement step. This was Kakade's original framing in the 2001 paper. So the natural gradient sits on the policy iteration side of the family, not just the gradient methods side. It is a trust-region method, a preconditioned gradient method, and a soft policy iteration step, all at once.
+Try the second one on the bandit, because the result is worth staring at. The gradient of expected return is
+
+$$
+\frac{dJ}{d\theta} = \sigma(\theta)(1 - \sigma(\theta))(r_1 - r_0),
+$$
+
+and the Fisher is $\sigma(\theta)(1 - \sigma(\theta))$. Near saturation the two collapse together: at $\theta = 5$ the factor $\sigma(1-\sigma)$ is about $0.0066$, so plain gradient ascent crawls, even though the policy may be nowhere near where we want it. This is not an artifact of the example: the gradient is an average of score vectors weighted by advantages, and the Fisher is the second moment of those same score vectors, so wherever the Fisher collapses, the gradient collapses with it. Dividing by the Fisher removes the dying factor:
+
+$$
+F(\theta)^{-1} \frac{dJ}{d\theta} = r_1 - r_0.
+$$
+
+A constant. Every trace of $\theta$, of the sigmoid, of the decision to parameterize by logits, is gone, and what remains is the one quantity the problem was ever about: the gap between the two rewards. Same story for the step length. Plugging into the closed form above gives a step of size $\sqrt{2\Delta / \sigma(1-\sigma)}$, which grows near saturation, because out there it takes more parameter motion to spend the same KL budget.
+
+This is what the natural gradient actually buys you: to leading order, the step is invariant to smooth reparameterization. Rescale $\theta$, change basis, swap logits for some other encoding, and the resulting policy moves the same way. The Euclidean methods of the earlier sections cannot make any claim of this kind.
+
+All of this is easier to feel than to read. Drag $\theta$, move the rewards, and watch which readouts care about the parameterization and which don't:
+
+<iframe src="content/bandit-explorer.html" style="width:100%;height:85vh;border:none;border-radius:8px;" loading="lazy"></iframe>
+
+There is a third interpretation that I think is underrated. Under compatible function approximation (where the critic is linear in the score $\nabla_\theta \log \pi_\theta$), the natural gradient direction points toward a greedy policy improvement step rather than merely uphill. This was Kakade's original framing in the 2001 paper. So the natural gradient sits on the policy iteration side of the family, not just the gradient methods side. It is a trust-region method, a preconditioned gradient method, and a soft policy iteration step, all at once.
 
 ## 8. TRPO
 
-TRPO is the natural gradient applied to the importance-sampled surrogate from conservative policy iteration. The setup is: collect data under the current policy $\pi_{\theta_{old}}$, then optimize
+TRPO is the natural gradient applied to the importance-sampled surrogate from conservative policy iteration (Kakade and Langford, 2002). The setup is: collect data under the current policy $\pi_{\theta_{old}}$, then optimize
 
 $$
 L(\theta) = \mathbb{E}_{s, a \sim \pi_{\theta_{old}}}\!\left[ \frac{\pi_\theta(a \mid s)}{\pi_{\theta_{old}}(a \mid s)} \hat A(s, a) \right]
@@ -160,12 +182,16 @@ $$
 
 where $\bar D_{KL}$ is the mean KL over states drawn from $\pi_{\theta_{old}}$.
 
+The surrogate is not arbitrary. At $\theta = \theta_{old}$ every importance ratio equals one, and differentiating the ratio pulls out a score: $\nabla_\theta L \big|_{\theta_{old}} = \mathbb{E}\left[\nabla_\theta \log \pi_\theta(a \mid s) \, \hat A(s, a)\right]$, the policy gradient itself. So $L$ matches the true return to first order at the expansion point, and you can evaluate it at any candidate $\theta$ using only data already collected under the old policy. It is playing exactly the game $m_k$ played in section 1: a local model, built from information at the current point, trusted only nearby. The KL region says how far.
+
 This is a constrained nonlinear optimization on a neural network policy, which we cannot solve directly. TRPO does the obvious thing: linearize the objective, quadratize the constraint.
 
 1. Linearize $L$ around $\theta_{old}$: $L(\theta_{old} + p) \approx L(\theta_{old}) + g^\top p$, where $g = \nabla_\theta L \big|_{\theta_{old}}$.
 2. Quadratize the KL constraint: $\bar D_{KL}(\theta_{old}, \theta_{old} + p) \approx \tfrac{1}{2} p^\top F p$, where $F$ is the Fisher.
 
 This recovers the natural gradient subproblem from the previous section, with closed-form direction $p^\star \propto F^{-1} g$. So TRPO is not a new algorithm grafted onto policy gradients. It is the natural gradient applied to the importance-sampled surrogate.
+
+It is worth noticing where the curvature went. In section 3, the curvature lived in the model $m_k$ and the constraint was a plain ball. Here the objective is linearized, flat, and all of the curvature lives in the constraint. That is a deliberate trade. Second derivatives of the surrogate would have to be estimated from noisy Monte Carlo returns; the curvature of the KL is the Fisher, which is built from first derivatives of $\log \pi_\theta$ alone. TRPO drops the expensive, noisy curvature and keeps the cheap curvature that measures the thing we actually want to control.
 
 The motivation for the trust region beyond "we want the natural gradient direction" is the monotonic improvement bound. Under appropriate assumptions, the true return satisfies
 
@@ -204,10 +230,11 @@ Combining: CG needs roughly ten iterations, each iteration does one $F v$, each 
 The closed-form natural gradient step assumes the quadratic approximation of KL is exact. It is not. KL has a third-order term that we threw away, the Fisher is estimated from finite samples, and the surrogate $L$ is itself only a local proxy. If you take the analytic step length, you can land outside the KL ball you intended to respect, and the surrogate may not have actually improved.
 
 So TRPO does a backtracking line search after CG. It starts with the analytic step length, and tries successively shorter step lengths $\alpha \cdot p^\star$ for $\alpha = 1, 1/2, 1/4, \ldots$, accepting the first $\alpha$ for which both
+
 * the actual mean KL is at most $\Delta$, and
 * the surrogate $L$ has improved over $\theta_{old}$.
 
-If no $\alpha$ in the schedule works, the update is rejected. Without the line search, the trust region is a target rather than a constraint. The line search is what makes it a real constraint, and it is the part of TRPO that gets glossed in most descriptions.
+If no $\alpha$ in the schedule works, the update is rejected. This is the same test that $\rho_k$ performed back in section 3, wearing different clothes: compare what the model promised against what actually happened, and refuse to move when the model lied. Without the line search, the trust region is a target rather than a constraint. The line search is what makes it a real constraint, and it is the part of TRPO that gets glossed in most descriptions.
 
 ## 11. PPO
 
@@ -219,11 +246,15 @@ $$
 
 where $r_t(\theta) = \pi_\theta(a_t \mid s_t) / \pi_{\theta_{old}}(a_t \mid s_t)$.
 
+The clip is there because PPO squeezes each batch harder than TRPO does. TRPO takes one step per batch of rollouts and then goes back for fresh data. PPO runs several epochs of minibatch steps on the same batch, and over those epochs the ratios drift away from one. Clipping makes the drift self-limiting: once a sample's ratio passes $1 \pm \varepsilon$ in the profitable direction, that sample stops contributing gradient.
+
 What you get: the implementation collapses to minibatch SGD on a single objective. No CG, no Pearlmutter trick, no line search, no Fisher. This is most of why PPO took over.
 
-What you give up: the clipped objective is not a KL constraint. It bounds the per-sample importance ratio pointwise on advantaged samples, which correlates with KL but does not control it. PPO codebases in practice monitor mean KL as a diagnostic and sometimes early-stop epochs when it explodes, which is a quiet acknowledgment that the clip is not actually doing the job a trust region would do. The clip is a useful proxy. It is still a proxy.
+What you give up: the clipped objective is not a KL constraint. A sample that stops contributing gradient is not a sample whose ratio stops moving: updates driven by the rest of the minibatch can drag it far outside the range, and in practice ratios do end up there. People running PPO monitor the mean KL anyway, and sometimes cut an epoch short when it grows too large. If the clip really did the job of a trust region, nobody would have to watch the KL. The clip is a useful proxy. It is still a proxy.
 
-In the trust region framework, PPO does not have a clean derivation. There is no choice of distance function and local model that produces the clipped objective by linearization. It is a heuristic that approximates the behavior of a trust region method without inheriting its structure. The honest statement is that PPO kept the trust region philosophy and dropped the trust region mechanism.
+The PPO paper actually proposed a second variant that keeps KL explicit, as a penalty added to the objective with an adaptive coefficient, a soft version of the TRPO constraint. It lost to the clip on the paper's own benchmarks, and the field followed. Even the variant that kept more of the trust region machinery was outcompeted by the crudest approximation of it.
+
+In the trust region framework, PPO does not have a clean derivation. I know of no choice of distance function and local model that produces the clipped objective by linearization. It is a heuristic that approximates the behavior of a trust region method without inheriting its structure. The honest statement is that PPO kept the trust region philosophy and dropped the trust region mechanism.
 
 ## 12. Summary
 
@@ -232,16 +263,18 @@ The story compresses to:
 1. Iterative methods for nonlinear optimization need a way to control how far they trust the local quadratic model. Trust regions enforce this by constraining the step to a region where the model is believed.
 2. The Euclidean trust region in parameter space is wrong for policies because Euclidean distance in $\theta$ does not measure how much the distribution $\pi_\theta$ changed.
 3. KL divergence does measure that. Locally, KL is quadratic in the parameter perturbation with Hessian equal to the Fisher information matrix.
-4. The natural gradient is steepest ascent under the Fisher metric. Closed-form direction $F^{-1} g$.
+4. The natural gradient is steepest ascent under the Fisher metric. Closed-form direction $F^{-1} g$. In the two-action bandit it comes out to the constant $r_1 - r_0$: the parameterization deleted from the update, leaving only the quantity the problem is about.
 5. TRPO is the natural gradient applied to the importance-sampled surrogate, computed using conjugate gradient on Hessian-vector products, with a backtracking line search to actually enforce the KL constraint.
 6. PPO drops the constraint and the line search and replaces them with a clipped surrogate. Easier to run, weaker as a trust region method.
 
-The reason the trust region perspective is worth holding onto, even if you only ever run PPO, is that it tells you what is being controlled. The dangerous quantity in policy optimization is policy motion, not parameter motion. If a method has a clean answer to the question "what is the local model and what notion of distance is being bounded", it is a trust region method. Otherwise, it is an approximation to one.
+The reason the trust region perspective is worth holding onto, even if you only ever run PPO, is that it tells you what is being controlled. The dangerous quantity in policy optimization is policy motion, not parameter motion. If a method has a clean answer to the question "what is the local model and what notion of distance is being bounded", it is a trust region method. Otherwise, it is an approximation to one. The methods that train today's language models are descendants of PPO, and the same two questions cut through each of them: what distance is being bounded, and what actually enforces the bound. That is [the next post](/blog/two-kls/).
 
 ## References
 
-1. Sham Kakade. A Natural Policy Gradient. NeurIPS, 2001.
-2. John Schulman, Sergey Levine, Philipp Moritz, Michael Jordan, Pieter Abbeel. Trust region policy optimization. ICML, 2015.
-3. John Schulman, Filip Wolski, Prafulla Dhariwal, Alec Radford, Oleg Klimov. Proximal policy optimization algorithms. arXiv:1707.06347, 2017.
-4. Barak Pearlmutter. Fast Exact Multiplication by the Hessian. Neural Computation, 1994.
-5. Jorge Nocedal and Stephen Wright. Numerical Optimization. Springer, 2nd edition, 2006.
+1. Jorge Nocedal and Stephen Wright. Numerical Optimization. Springer, 2nd edition, 2006.
+2. Shun-ichi Amari. Natural Gradient Works Efficiently in Learning. Neural Computation, 1998.
+3. Sham Kakade. A Natural Policy Gradient. NIPS, 2001.
+4. Sham Kakade and John Langford. Approximately Optimal Approximate Reinforcement Learning. ICML, 2002.
+5. John Schulman, Sergey Levine, Pieter Abbeel, Michael Jordan, Philipp Moritz. Trust Region Policy Optimization. ICML, 2015.
+6. Barak Pearlmutter. Fast Exact Multiplication by the Hessian. Neural Computation, 1994.
+7. John Schulman, Filip Wolski, Prafulla Dhariwal, Alec Radford, Oleg Klimov. Proximal Policy Optimization Algorithms. arXiv:1707.06347, 2017.

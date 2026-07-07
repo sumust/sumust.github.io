@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bandit Explorer</title>
+<meta name="description" content="Interactive two-action bandit explorer: watch the policy gradient and the Fisher information collapse together while the natural gradient stays constant.">
+<link rel="canonical" href="https://sumust.github.io/blog/content/bandit-explorer.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Bandit Explorer">
+<meta property="og:description" content="Interactive two-action bandit explorer: watch the policy gradient and the Fisher information collapse together while the natural gradient stays constant.">
+<meta property="og:url" content="https://sumust.github.io/blog/content/bandit-explorer.html">
+<meta name="twitter:card" content="summary">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root {
+  --bg: #08090d;
+  --surface: #0f1117;
+  --surface2: #161921;
+  --surface3: #1c2029;
+  --border: rgba(255,255,255,0.06);
+  --border2: rgba(255,255,255,0.1);
+  --text: #d4d2cb;
+  --text2: #7a7872;
+  --text3: #4a4842;
+  --accent: #4fd1a5;
+  --accent2: #e85c3a;
+  --warm: #efaa32;
+  --cool: #4a8fe7;
+  --purple: #9b8aef;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'IBM Plex Mono', monospace;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.shell {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.title {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.65rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.title em { color: var(--accent); font-style: italic; }
+
+.formula-bar {
+  font-size: 0.68rem;
+  color: var(--text2);
+  letter-spacing: 0.04em;
+}
+
+.main-grid {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 1.25rem;
+}
+
+@media (max-width: 900px) {
+  .main-grid { grid-template-columns: 1fr; }
+}
+
+.plot-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.plot-label {
+  position: absolute;
+  top: 12px;
+  left: 14px;
+  font-size: 0.6rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text2);
+  z-index: 5;
+  background: rgba(15,17,23,0.8);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.canvas-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.55;
+}
+
+.canvas-wrap canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.info-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem 1.15rem;
+}
+
+.card-head {
+  font-size: 0.58rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text2);
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.readout {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 5px 0;
+}
+
+.readout-label {
+  font-size: 0.72rem;
+  color: var(--text2);
+  font-weight: 300;
+}
+
+.readout-val {
+  font-size: 0.82rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.readout-val.green { color: var(--accent); }
+.readout-val.orange { color: var(--warm); }
+.readout-val.red { color: var(--accent2); }
+.readout-val.blue { color: var(--cool); }
+.readout-val.purple { color: var(--purple); }
+
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 4px 0;
+}
+
+.slider-row {
+  padding: 6px 0 2px;
+}
+
+.slider-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 4px;
+}
+
+.slider-label {
+  font-size: 0.72rem;
+  color: var(--text2);
+  font-weight: 300;
+}
+
+.slider-val {
+  font-size: 0.78rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  background: var(--surface3);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: none;
+  cursor: grab;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: none;
+  cursor: grab;
+}
+
+.legend-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 0;
+  font-size: 0.68rem;
+  color: var(--text2);
+}
+
+.legend-swatch {
+  width: 18px;
+  height: 3px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0;
+}
+
+.toggle-label {
+  font-size: 0.72rem;
+  color: var(--text2);
+  font-weight: 300;
+}
+
+.toggle-track {
+  position: relative;
+  width: 34px;
+  height: 18px;
+  background: var(--surface3);
+  border: 1px solid var(--border2);
+  border-radius: 9px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.toggle-track.on {
+  background: rgba(79,209,165,0.2);
+  border-color: rgba(79,209,165,0.3);
+}
+
+.toggle-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  background: var(--text2);
+  border-radius: 50%;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.toggle-track.on .toggle-thumb {
+  transform: translateX(16px);
+  background: var(--accent);
+}
+
+.hint {
+  font-size: 0.62rem;
+  color: var(--text3);
+  text-align: center;
+  padding: 8px 0 4px;
+  letter-spacing: 0.04em;
+}
+
+.bottom-bar {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 900px) {
+  .bottom-bar { grid-template-columns: 1fr; }
+}
+
+.insight {
+  font-size: 0.72rem;
+  line-height: 1.55;
+  color: var(--text2);
+}
+
+.insight strong {
+  color: var(--text);
+  font-weight: 500;
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="top-bar">
+    <div class="title">Bandit <em>explorer</em></div>
+    <div class="formula-bar">J(θ) = σ(θ)·r₁ + (1−σ(θ))·r₀&emsp;·&emsp;one state, two actions, one parameter</div>
+  </div>
+
+  <div class="main-grid">
+    <div class="plot-panel">
+      <div class="plot-label">Expected return · J(θ)</div>
+      <div class="canvas-wrap">
+        <canvas id="cv"></canvas>
+      </div>
+      <div class="hint">Drag the point along the curve — both gradients and the KL region update live</div>
+    </div>
+
+    <div class="sidebar">
+      <div class="info-card">
+        <div class="card-head">Policy</div>
+        <div class="readout"><span class="readout-label">θ (logit)</span><span class="readout-val orange" id="r-th">1.000</span></div>
+        <div class="readout"><span class="readout-label">π(a=1) = σ(θ)</span><span class="readout-val orange" id="r-p1">0.731</span></div>
+        <div class="readout"><span class="readout-label">π(a=0)</span><span class="readout-val orange" id="r-p0">0.269</span></div>
+        <div class="divider"></div>
+        <div class="readout"><span class="readout-label">J(θ)</span><span class="readout-val green" id="r-j">0.731</span></div>
+      </div>
+
+      <div class="info-card">
+        <div class="card-head">Rewards</div>
+        <div class="slider-row">
+          <div class="slider-top"><span class="slider-label">r₁ (action 1)</span><span class="slider-val" id="v-r1">1.00</span></div>
+          <input type="range" id="s-r1" min="-2" max="2" step="0.05" value="1">
+        </div>
+        <div class="slider-row">
+          <div class="slider-top"><span class="slider-label">r₀ (action 0)</span><span class="slider-val" id="v-r0">0.00</span></div>
+          <input type="range" id="s-r0" min="-2" max="2" step="0.05" value="0">
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="card-head">Two gradients</div>
+        <div class="readout"><span class="readout-label">dJ/dθ = σ(1−σ)(r₁−r₀)</span><span class="readout-val red" id="r-g">0.197</span></div>
+        <div class="readout"><span class="readout-label">Fisher F = σ(1−σ)</span><span class="readout-val blue" id="r-f">0.197</span></div>
+        <div class="divider"></div>
+        <div class="readout"><span class="readout-label">F⁻¹ dJ/dθ = r₁ − r₀</span><span class="readout-val purple" id="r-nat">1.000</span></div>
+      </div>
+
+      <div class="info-card">
+        <div class="card-head">KL trust region</div>
+        <div class="slider-row">
+          <div class="slider-top"><span class="slider-label">KL budget Δ</span><span class="slider-val" id="v-delta">0.014</span></div>
+          <input type="range" id="s-delta" min="0" max="1" step="0.01" value="0.5">
+        </div>
+        <div class="readout"><span class="readout-label">step √(2Δ/F)</span><span class="readout-val green" id="r-step">0.450</span></div>
+      </div>
+
+      <div class="info-card">
+        <div class="card-head">Display</div>
+        <div class="toggle-row">
+          <span class="toggle-label">Gradient step</span>
+          <div class="toggle-track on" id="t-grad" onclick="toggleGrad()"><div class="toggle-thumb"></div></div>
+        </div>
+        <div class="toggle-row">
+          <span class="toggle-label">Natural gradient step</span>
+          <div class="toggle-track on" id="t-nat" onclick="toggleNat()"><div class="toggle-thumb"></div></div>
+        </div>
+        <div class="toggle-row">
+          <span class="toggle-label">KL region</span>
+          <div class="toggle-track on" id="t-kl" onclick="toggleKl()"><div class="toggle-thumb"></div></div>
+        </div>
+        <div class="divider" style="margin:6px 0"></div>
+        <div class="legend-row"><div class="legend-swatch" style="background:#e85c3a"></div>gradient step (η = 1)</div>
+        <div class="legend-row"><div class="legend-swatch" style="background:#9b8aef"></div>natural gradient step (η = 1)</div>
+        <div class="legend-row"><div class="legend-swatch" style="background:rgba(79,209,165,0.5)"></div>steps with KL ≤ Δ</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-bar">
+    <div class="insight"><strong>Both gradients die together.</strong> dJ/dθ and the Fisher share the factor σ(1−σ). Park θ at 5: the policy still is not where you want it, but gradient ascent has almost nothing left to climb with.</div>
+    <div class="insight"><strong>The natural gradient is a constant.</strong> F⁻¹ dJ/dθ = r₁ − r₀ everywhere on the curve. Move the reward sliders: the purple readout tracks the gap and ignores θ entirely. The parameterization is gone from the update.</div>
+    <div class="insight"><strong>The same KL budget allows a bigger step near saturation.</strong> The shaded band is the set of steps with KL ≤ Δ, to second order. It widens exactly where a unit of parameter motion stops changing the policy.</div>
+  </div>
+<p style="margin-top:1.1rem;font-size:.68rem;color:#7a7872;text-align:center">From <a href="https://sumust.github.io/blog/trust_regions/" style="color:#4fd1a5">Trust Regions, Natural Gradients, TRPO, PPO</a>, part 3 of a series on trust regions.</p>
+</div>
+
+<script>
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+
+let showGrad = true, showNat = true, showKl = true;
+function toggleGrad() { showGrad = !showGrad; document.getElementById('t-grad').classList.toggle('on', showGrad); draw(); }
+function toggleNat() { showNat = !showNat; document.getElementById('t-nat').classList.toggle('on', showNat); draw(); }
+function toggleKl() { showKl = !showKl; document.getElementById('t-kl').classList.toggle('on', showKl); draw(); }
+
+let W, H, dpr;
+function resize() {
+  dpr = Math.min(window.devicePixelRatio, 2);
+  const r = cv.parentElement.getBoundingClientRect();
+  W = r.width; H = r.height;
+  cv.width = W * dpr; cv.height = H * dpr;
+  cv.style.width = W + 'px'; cv.style.height = H + 'px';
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  draw();
+}
+
+const thMin = -8, thMax = 8, jMin = -2.3, jMax = 2.3;
+const pad = { l: 52, r: 20, t: 40, b: 42 };
+
+function toC(th, j) {
+  return [
+    pad.l + (th - thMin) / (thMax - thMin) * (W - pad.l - pad.r),
+    (H - pad.b) - (j - jMin) / (jMax - jMin) * (H - pad.t - pad.b)
+  ];
+}
+function fromC(cx, cy) {
+  return [
+    thMin + (cx - pad.l) / (W - pad.l - pad.r) * (thMax - thMin),
+    jMin + ((H - pad.b) - cy) / (H - pad.t - pad.b) * (jMax - jMin)
+  ];
+}
+
+function sig(t) { return 1 / (1 + Math.exp(-t)); }
+
+let th = 1.0, r1 = 1.0, r0 = 0.0;
+let dragging = false;
+
+function deltaFromSlider(v) { return 0.001 * Math.pow(200, v); } // 0.001 .. 0.2, log scale
+let delta = deltaFromSlider(0.5);
+
+function J(t) { return sig(t) * r1 + (1 - sig(t)) * r0; }
+function gradJ(t) { const s = sig(t); return s * (1 - s) * (r1 - r0); }
+function fisher(t) { const s = sig(t); return s * (1 - s); }
+
+function drawArrow(x0, y0, x1, y1, color, dashed) {
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 2.5;
+  if (dashed) ctx.setLineDash([6, 4]);
+  ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y1); ctx.stroke();
+  ctx.setLineDash([]);
+  const angle = Math.atan2(y1 - y0, x1 - x0);
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.moveTo(x1, y1);
+  ctx.lineTo(x1 - 10 * Math.cos(angle - 0.35), y1 - 10 * Math.sin(angle - 0.35));
+  ctx.lineTo(x1 - 10 * Math.cos(angle + 0.35), y1 - 10 * Math.sin(angle + 0.35));
+  ctx.closePath(); ctx.fill();
+}
+
+function draw() {
+  ctx.clearRect(0, 0, W, H);
+
+  const plotL = pad.l, plotT = pad.t, plotW = W - pad.l - pad.r, plotH = H - pad.t - pad.b;
+
+  ctx.fillStyle = '#0f1117';
+  ctx.fillRect(plotL, plotT, plotW, plotH);
+
+  ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+  ctx.lineWidth = 0.5;
+  for (let x = -8; x <= 8; x += 2) {
+    const [cx] = toC(x, 0);
+    ctx.beginPath(); ctx.moveTo(cx, plotT); ctx.lineTo(cx, plotT + plotH); ctx.stroke();
+  }
+  for (let y = -2; y <= 2; y++) {
+    const [, cy] = toC(0, y);
+    ctx.beginPath(); ctx.moveTo(plotL, cy); ctx.lineTo(plotL + plotW, cy); ctx.stroke();
+  }
+
+  ctx.font = '500 10px "IBM Plex Mono", monospace';
+  ctx.fillStyle = '#4a4842';
+  ctx.textAlign = 'center';
+  for (let x = -8; x <= 8; x += 2) {
+    const [cx] = toC(x, 0);
+    ctx.fillText(x, cx, H - pad.b + 16);
+  }
+  ctx.textAlign = 'right';
+  for (let y = -2; y <= 2; y++) {
+    const [, cy] = toC(0, y);
+    ctx.fillText(y, pad.l - 8, cy + 3);
+  }
+  ctx.textAlign = 'center';
+  ctx.fillText('θ', W / 2, H - 6);
+  ctx.save();
+  ctx.translate(12, (plotT + plotT + plotH) / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillText('J(θ)', 0, 0);
+  ctx.restore();
+
+  // reward asymptotes
+  ctx.strokeStyle = 'rgba(239,170,50,0.25)';
+  ctx.lineWidth = 1;
+  ctx.setLineDash([3, 5]);
+  const [, cyR1] = toC(0, r1);
+  const [, cyR0] = toC(0, r0);
+  ctx.beginPath(); ctx.moveTo(plotL, cyR1); ctx.lineTo(plotL + plotW, cyR1); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(plotL, cyR0); ctx.lineTo(plotL + plotW, cyR0); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = 'rgba(239,170,50,0.6)';
+  ctx.textAlign = 'right';
+  ctx.fillText('r₁', plotL + plotW - 6, cyR1 - 5);
+  ctx.textAlign = 'left';
+  ctx.fillText('r₀', plotL + 6, cyR0 - 5);
+
+  // KL trust region band
+  const F = fisher(th);
+  if (showKl && F > 1e-9) {
+    const wKl = Math.sqrt(2 * delta / F);
+    const lo = Math.max(thMin, th - wKl), hi = Math.min(thMax, th + wKl);
+    const [cx0] = toC(lo, 0), [cx1] = toC(hi, 0);
+    ctx.fillStyle = 'rgba(79,209,165,0.08)';
+    ctx.fillRect(cx0, plotT, cx1 - cx0, plotH);
+    ctx.strokeStyle = 'rgba(79,209,165,0.35)';
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(cx0, plotT); ctx.lineTo(cx0, plotT + plotH); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx1, plotT); ctx.lineTo(cx1, plotT + plotH); ctx.stroke();
+  }
+
+  // J curve
+  ctx.strokeStyle = '#4fd1a5';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  for (let i = 0; i <= 400; i++) {
+    const t = thMin + (thMax - thMin) * i / 400;
+    const [cx, cy] = toC(t, J(t));
+    if (i === 0) ctx.moveTo(cx, cy); else ctx.lineTo(cx, cy);
+  }
+  ctx.stroke();
+
+  const [px, py] = toC(th, J(th));
+  const g = gradJ(th);
+  const nat = r1 - r0;
+
+  // gradient ascent step, learning rate 1
+  if (showGrad) {
+    const dest = th + g;
+    const [ex] = toC(Math.max(thMin, Math.min(thMax, dest)), 0);
+    if (Math.abs(ex - px) > 2) {
+      drawArrow(px, py, ex, py, '#e85c3a', false);
+      const [lx, ly] = toC(Math.max(thMin, Math.min(thMax, dest)), J(dest));
+      ctx.strokeStyle = 'rgba(232,92,58,0.4)';
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.arc(lx, ly, 6, 0, Math.PI * 2); ctx.stroke();
+    }
+  }
+
+  // natural gradient step, learning rate 1
+  if (showNat) {
+    const dest = th + nat;
+    const [ex] = toC(Math.max(thMin, Math.min(thMax, dest)), 0);
+    if (Math.abs(ex - px) > 2) {
+      drawArrow(px, py - 14, ex, py - 14, '#9b8aef', true);
+      const [lx, ly] = toC(Math.max(thMin, Math.min(thMax, dest)), J(dest));
+      ctx.strokeStyle = 'rgba(155,138,239,0.4)';
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.arc(lx, ly, 6, 0, Math.PI * 2); ctx.stroke();
+    }
+  }
+
+  // the point
+  ctx.fillStyle = 'rgba(232,92,58,0.15)';
+  ctx.beginPath(); ctx.arc(px, py, 18, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = 'rgba(232,92,58,0.3)';
+  ctx.beginPath(); ctx.arc(px, py, 11, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = '#e85c3a';
+  ctx.beginPath(); ctx.arc(px, py, 5.5, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = '#ffeedd';
+  ctx.beginPath(); ctx.arc(px, py, 2, 0, Math.PI * 2); ctx.fill();
+
+  updateReadouts();
+}
+
+function updateReadouts() {
+  const s = sig(th);
+  const F = fisher(th);
+  document.getElementById('r-th').textContent = th.toFixed(3);
+  document.getElementById('r-p1').textContent = s.toFixed(3);
+  document.getElementById('r-p0').textContent = (1 - s).toFixed(3);
+  document.getElementById('r-j').textContent = J(th).toFixed(3);
+  const g = gradJ(th);
+  document.getElementById('r-g').textContent = (g >= 0 ? '' : '−') + Math.abs(g).toFixed(4);
+  document.getElementById('r-f').textContent = F.toFixed(4);
+  const nat = r1 - r0;
+  document.getElementById('r-nat').textContent = (nat >= 0 ? '' : '−') + Math.abs(nat).toFixed(3);
+  document.getElementById('r-step').textContent = F > 1e-9 ? Math.sqrt(2 * delta / F).toFixed(3) : '∞';
+}
+
+document.getElementById('s-r1').addEventListener('input', e => {
+  r1 = parseFloat(e.target.value);
+  document.getElementById('v-r1').textContent = r1.toFixed(2);
+  draw();
+});
+document.getElementById('s-r0').addEventListener('input', e => {
+  r0 = parseFloat(e.target.value);
+  document.getElementById('v-r0').textContent = r0.toFixed(2);
+  draw();
+});
+document.getElementById('s-delta').addEventListener('input', e => {
+  delta = deltaFromSlider(parseFloat(e.target.value));
+  document.getElementById('v-delta').textContent = delta.toFixed(3);
+  draw();
+});
+
+function getPos(e) {
+  const r = cv.getBoundingClientRect();
+  return [e.clientX - r.left, e.clientY - r.top];
+}
+
+cv.addEventListener('pointerdown', e => {
+  const [cx, cy] = getPos(e);
+  const [px, py] = toC(th, J(th));
+  if (Math.hypot(cx - px, cy - py) < 30) {
+    dragging = true;
+    cv.setPointerCapture(e.pointerId);
+    cv.style.cursor = 'grabbing';
+  }
+});
+
+cv.addEventListener('pointermove', e => {
+  if (!dragging) {
+    const [cx, cy] = getPos(e);
+    const [px, py] = toC(th, J(th));
+    cv.style.cursor = Math.hypot(cx - px, cy - py) < 30 ? 'grab' : 'crosshair';
+    return;
+  }
+  const [cx] = getPos(e);
+  const [x] = fromC(cx, 0);
+  th = Math.max(thMin + 0.05, Math.min(thMax - 0.05, x));
+  draw();
+});
+
+cv.addEventListener('pointerup', () => {
+  dragging = false;
+  cv.style.cursor = 'crosshair';
+});
+
+window.addEventListener('resize', resize);
+resize();
+</script>
+</body>
+</html>
